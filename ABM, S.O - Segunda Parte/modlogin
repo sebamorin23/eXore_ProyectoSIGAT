@@ -1,0 +1,60 @@
+
+clear
+
+        read -p "Ingrese el login al que quiere modificarle el login: " LoginMod
+
+        busquedaLoginMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginMod")
+
+while [ "$LoginMod" == "" ]
+do
+echo
+        echo "Debe ingresar un login para continuar"
+        read -p "Vuelva a ingresar un login: " LoginMod
+
+        busquedaLoginMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginMod")
+done
+
+while [ "$LoginMod" != "$busquedaLoginMod" ]
+do
+echo
+        echo "El login ingresado no existe."
+        read -p "Vuelva a ingresar un login: " LoginMod
+
+        busquedaLoginMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginMod")
+done
+
+while [ "$LoginMod" == "" ]
+do
+echo
+        echo "Debe ingresar un login para continuar"
+        read -p "Vuelva a ingresar un login: " LoginMod
+
+        busquedaLoginMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginMod")
+done
+
+        read -p "Ingrese el nuevo login que quiere ponerle al usuario: " NuevoLogin
+
+        while [ "$NuevoLogin" == "" ]
+do
+echo
+        echo "No se puede continuar sin ingresar un login"
+        read -p "Vuelva a ingresar un login: " NuevoLogin
+done
+
+busquedaLoginMod2=$(cut -d ":" -f1 /etc/passwd | grep -w "$NuevoLogin")
+
+while [ "$busquedaLoginMod2" == "$NuevoLogin" ]
+do
+echo
+        echo "El login ingresado ya existe y pertenece a:"
+        echo
+        finger = "$NuevoLogin"
+        echo
+        read -p "Vuelva a ingresar un login: " NuevoLogin
+
+        busquedaLoginMod2=$(cut -d ":" -f1 /etc/passwd | grep -w "$NuevoLogin")
+done
+
+        usermod -l "$NuevoLogin" "$LoginMod"
+echo
+        read -p "Presione ENTER para volver al menú" volver9

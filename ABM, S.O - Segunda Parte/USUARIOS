@@ -1,0 +1,51 @@
+
+clear
+echo
+
+while [ opcion=!4 ]
+do
+
+clear
+
+echo " ________________________________________ "
+echo "|                                        |"
+echo "|                USUARIOS                |"
+echo "|________________________________________|"
+echo "|                                        |"
+echo "|          1- Ingresar usuario           |"
+echo "|          2- Modificar usuario          |"
+echo "|          3- Eliminar usuario           |" 
+echo "|          4- Volver                     |"
+echo "|________________________________________|"
+echo
+read -p "Ingrese la opcion deseada: " opcion
+
+case $opcion in
+
+1) . ingusu
+
+;;
+
+2) . modusu
+
+;; #cierra case de "opcion" 
+
+3) . eliusu
+
+;; #cierra case de "opcion"
+
+4) break
+clear
+;; #cierra case de "ocpion"
+
+*) 	echo
+	echo "La opcion ingresada no es valida"
+	read -p "Presione ENTER y vuleva a ingresar una opcion valida" VolverAIngresar2
+;;
+
+esac
+done
+
+
+
+

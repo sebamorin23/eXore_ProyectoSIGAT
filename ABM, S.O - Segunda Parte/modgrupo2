@@ -1,0 +1,49 @@
+
+clear
+
+        read -p "Ingrese el login del usuario al que desea modificar: " LoginGrupoMod2
+
+while [ "$LoginGrupoMod2" == "" ]
+do
+echo
+        echo "Debe ingresar un login para continuar."
+        read -p "Vuelva a ingresar un login: " LoginGrupoMod2
+done
+
+	busquedaLoginGrupo2=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginGrupoMod2")
+
+if [ "$busquedaLoginGrupo2" == "" ]
+then
+echo
+        echo "El login ingresado no existe."
+        read -p "Presione enter y vuelva a ingresar un login" volver
+	break
+fi
+echo
+
+        read -p "Ingrese el nuevo grupo secundario que desea ponerle al ususario: " NuevoGrupo2
+echo
+
+	busquedaGrupoMod3=$(cut -d ":" -f3 /etc/group | grep -w "$NuevoGrupo2")
+
+
+until [ "$NuevoGrupo2" == "$busquedaGrupoMod3" ]
+do
+echo
+        echo "El grupo ingresado no existe."
+        read -p "Vuelva a ingresar un grupo secuendario (opcional): " NuevoGrupo2
+
+        busquedaGrupoMod3=$(cut -d ":" -f3 /etc/group | grep -w "$NuevoGrupo2")
+done
+
+        usermod -G "$NuevoGrupo2" "$LoginGrupoMod2"
+
+	if [ $? == 0 ]
+then
+echo
+	read -p "Se ha modificado el grupo secundario con exito. Presione ENTER para salir" volver
+else 
+
+	read -p "Se a producido un error  y no se ha podido ingresar el usuario. Presione ENTER y vuelva a intentarlo" volver
+
+fi

@@ -1,0 +1,63 @@
+
+clear 
+
+	read -p "Ingrese el login del usuario que desea modificarle el home: " LoginMode
+ 
+while [ "$LoginMode" == "" ] 
+do
+echo
+        echo "Debe ingresar un login para continuar"
+        read -p "Vuelva a ingresar un login: " LoginMode
+done
+
+	busquedaLoginMode=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginMode")
+
+while [ "$LoginMode" != "$busquedaLoginMode" ]
+do
+echo
+	echo "El usuario ingresado no existe."
+	read -p "Vuelva a ingresar un login: " LoginMode
+
+	busquedaLoginMode=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginMode")
+done 
+
+while [ "$LoginMode" == "" ]
+do
+echo
+        echo "Debe ingresar un login para continuar"
+        read -p "Vuelva a ingresar un login: " LoginMode
+
+        busquedaLoginMode=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginMode")
+done
+
+#       INGRESA NUEVO HOME
+
+        read -p "Ingrese el nuevo home que le quiere poner al usuario: " NuevoHome
+
+	busquedaHome2=$(cut -d ":" -f6 /etc/passwd | grep -w "/home/$NuevoHome")
+
+while [ "$NuevoHome" == "" ]
+do
+echo
+        echo "No se puede continuar sin haber ingresado un home"
+        read -p "Vuelva a ingresarle un home al ususario: /home/" NuevoHome
+
+	busquedaHome2=$(cut -d ":" -f6 /etc/passwd | grep -w "/home/$NuevoHome")
+done
+
+#while  [ "/home/$NuevoHome" == "$busquedaHome2" ]
+#do
+#echo
+#        echo "El home ingresado ya existe"
+#        read -p "Vuelva a ingresar un home para el usuario: /home/" NuevoHome
+
+#	busquedaHome=$(cut -d ":" -f6 /etc/passwd | grep -w "/home/$home")
+
+#done
+echo
+
+        usermod -d /home/$NuevoHome "$LoginMode"
+echo 
+      read -p "Presione enter para regresar al menu" reg3
+
+

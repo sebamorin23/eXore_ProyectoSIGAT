@@ -1,0 +1,51 @@
+
+clear
+
+        read -p "Ingrese el login del usuario que desea modificarle la shell: " LoginShellMod
+
+        busquedaLoginShellMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginShellMod")
+
+while [ "$LoginShellMod" == "" ]
+do
+echo
+        echo "Debe ingresar un login para continuar"
+        read -p "Vuelva a ingresar un login: " LoginShellMod
+
+        busquedaLoginShellMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginShellMod")
+done
+
+while [ "$LoginShellMod" != "$busquedaLoginShellMod" ]
+do
+echo
+        echo "El login ingresado no existe."
+        read -p "Vuelva a ingresar un login: " LoginShellMod
+
+        busquedaLoginShellMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginShellMod")
+done
+
+echo
+echo " ________________ "
+echo "|                |"
+echo "| TIPOS DE SHELL |"
+echo "|________________|"
+echo "|                |"
+echo "|      bash      |"
+echo "|      sh        |"
+echo "|      ksh       |"
+echo "|      tcsh      |"
+echo "|      csh       |"
+echo "|________________|"
+echo
+read -p "Ingrese el nombre de la nueva Shell que le quiere poner al usuario: " NuevaShell
+
+        while [ "$NuevaShell" == "" ]
+do
+echo
+        echo "No se puede continuar sin ingresar una shell"
+        read -p "Vuelva a ingresar una shell para el usuario: " NuevaShell
+done
+echo
+        usermod -s /bin/"$NuevaShell" "$LoginShellMod"
+echo
+        read -p "Presione ENTER para volver al menu" volver8
+
