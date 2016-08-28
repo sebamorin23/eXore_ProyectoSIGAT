@@ -1,0 +1,1905 @@
+{ DATABASE exore  delimiter | }
+grant dba to "ibica";
+grant dba to "atrias";
+grant dba to "caramburu";
+grant dba to "jjurado";
+grant dba to "samorin";
+grant dba to "exore_admin_sistem";
+grant connect to "exore_admin_coope";
+grant connect to "exore_admin_tambo";
+grant connect to "exore_auxiliar";
+{ TABLE "atrias".animal row size = 108 number of columns = 11 index size = 18 }
+{ unload file name = anima00100.unl number of rows = 7 }
+create table "atrias".animal 
+  (
+    id_animal integer not null ,
+    id_pais char(20) not null ,
+    hor_mov datetime hour to second,
+    fecha_mov date,
+    mov char(20),
+    id_padre integer,
+    id_madre integer,
+    fechnacimiento date not null ,
+    animal_nombre char(20),
+    animal_raza char(20) not null ,
+    tambo_id integer not null ,
+    primary key (id_animal)  constraint "atrias".pk_animal
+  );
+revoke all on "atrias".animal from "public" as "atrias";
+{ TABLE "atrias".tambo row size = 132 number of columns = 6 index size = 9 }
+{ unload file name = tambo00101.unl number of rows = 1 }
+create table "atrias".tambo 
+  (
+    tambo_id integer not null ,
+    tambo_nombre char(20) not null ,
+    tamb_calle char(50) not null ,
+    tamb_esq char(50),
+    tamb_nropuert integer not null ,
+    tambo_litrosdia integer,
+    primary key (tambo_id)  constraint "atrias".pktambo
+  );
+revoke all on "atrias".tambo from "public" as "atrias";
+{ TABLE "atrias".tambo_tel row size = 8 number of columns = 2 index size = 9 }
+{ unload file name = tambo00102.unl number of rows = 0 }
+create table "atrias".tambo_tel 
+  (
+    tambo_id integer not null ,
+    tel integer not null ,
+    primary key (tambo_id)  constraint "atrias".pktambo_tel
+  );
+revoke all on "atrias".tambo_tel from "public" as "atrias";
+{ TABLE "atrias".usuarios row size = 112 number of columns = 8 index size = 43 }
+{ unload file name = usuar00103.unl number of rows = 8 }
+create table "atrias".usuarios 
+  (
+    usu_login char(20) not null ,
+    usu_ci integer not null ,
+    usu_primnombr char(20) not null ,
+    usu_segnombr char(20),
+    usu_primape char(20) not null ,
+    usu_segape char(20),
+    rol_id integer not null ,
+    tambo_id integer,
+    primary key (usu_login)  constraint "atrias".pk_usuarios
+  );
+revoke all on "atrias".usuarios from "public" as "atrias";
+{ TABLE "atrias".usuarios_usu_tel row size = 24 number of columns = 2 index size 
+              = 25 }
+{ unload file name = usuar00104.unl number of rows = 1 }
+create table "atrias".usuarios_usu_tel 
+  (
+    usu_login char(20) not null ,
+    usu_tel integer not null ,
+    primary key (usu_login)  constraint "atrias".pkusuarios_usu_tel
+  );
+revoke all on "atrias".usuarios_usu_tel from "public" as "atrias";
+{ TABLE "atrias".cooperativa row size = 134 number of columns = 5 index size = 9 
+              }
+{ unload file name = coope00105.unl number of rows = 0 }
+
+create table "atrias".cooperativa 
+  (
+    coop_id integer not null ,
+    coop_nombre char(20) not null ,
+    coop_calle char(50) not null ,
+    coop_esq char(50) not null ,
+    coop_nropuert char(10) not null ,
+    primary key (coop_id)  constraint "atrias".pkcooperativa
+  );
+revoke all on "atrias".cooperativa from "public" as "atrias";
+{ TABLE "atrias".cooperativa_cooptel row size = 8 number of columns = 2 index size 
+              = 9 }
+{ unload file name = coope00106.unl number of rows = 0 }
+
+create table "atrias".cooperativa_cooptel 
+  (
+    coop_id integer not null ,
+    coop_tel integer not null ,
+    primary key (coop_id)  constraint "atrias".pkcooperativa_cooptel
+  );
+
+revoke all on "atrias".cooperativa_cooptel from "public" as "atrias";
+
+{ TABLE "ibica".parametrotambo row size = 36 number of columns = 9 index size = 9 
+              }
+{ unload file name = param00107.unl number of rows = 0 }
+
+create table "ibica".parametrotambo 
+  (
+    parametro_id integer not null ,
+    parametro_fechcamb date not null ,
+    parametro_horcamb datetime hour to second not null ,
+    cantmaxvacord integer,
+    cantmaxvaclot integer,
+    parametro_hect integer,
+    cantvacmax integer,
+    parametro_horaordenie1 datetime hour to second,
+    parametro_horaordenie2 datetime hour to second,
+    primary key (parametro_id)  constraint "ibica".pk_parametrotambo
+  );
+
+revoke all on "ibica".parametrotambo from "public" as "ibica";
+
+{ TABLE "ibica".estado row size = 24 number of columns = 2 index size = 9 }
+{ unload file name = estad00108.unl number of rows = 0 }
+
+create table "ibica".estado 
+  (
+    estado_id integer not null ,
+    estado_nombre char(20) not null ,
+    primary key (estado_id)  constraint "ibica".pk_estado
+  );
+
+revoke all on "ibica".estado from "public" as "ibica";
+
+{ TABLE "ibica".lote row size = 8 number of columns = 2 index size = 9 }
+{ unload file name = lote_00110.unl number of rows = 2 }
+
+create table "ibica".lote 
+  (
+    lot_id integer not null ,
+    lot_litrdia integer,
+    primary key (lot_id)  constraint "ibica".pk_lote
+  );
+
+revoke all on "ibica".lote from "public" as "ibica";
+
+{ TABLE "ibica".vaca row size = 12 number of columns = 3 index size = 9 }
+{ unload file name = vaca_00111.unl number of rows = 1 }
+
+create table "ibica".vaca 
+  (
+    vaca_id integer not null ,
+    vaca_partos integer,
+    vaca_litrosdia integer,
+    primary key (vaca_id)  constraint "ibica".pk_vaca
+  );
+
+revoke all on "ibica".vaca from "public" as "ibica";
+
+{ TABLE "ibica".toro row size = 4 number of columns = 1 index size = 9 }
+{ unload file name = toro_00112.unl number of rows = 1 }
+
+create table "ibica".toro 
+  (
+    toro_id integer not null ,
+    primary key (toro_id)  constraint "ibica".pk_toro
+  );
+
+revoke all on "ibica".toro from "public" as "ibica";
+
+{ TABLE "jjurado".alimentos row size = 48 number of columns = 4 index size = 9 }
+{ unload file name = alime00113.unl number of rows = 0 }
+
+create table "jjurado".alimentos 
+  (
+    ali_idtipo integer not null ,
+    ali_cant integer,
+    ali_nombre char(20) not null ,
+    ali_tipo char(20) not null ,
+    primary key (ali_idtipo)  constraint "jjurado".pk_ali
+  );
+
+revoke all on "jjurado".alimentos from "public" as "jjurado";
+
+{ TABLE "jjurado".secado row size = 58 number of columns = 3 index size = 0 }
+{ unload file name = secad00114.unl number of rows = 0 }
+
+create table "jjurado".secado 
+  (
+    sec_id integer not null ,
+    sec_caus char(50) not null ,
+    sec_fechini date not null 
+  );
+
+revoke all on "jjurado".secado from "public" as "jjurado";
+
+{ TABLE "jjurado".rol row size = 24 number of columns = 2 index size = 9 }
+{ unload file name = rol__00115.unl number of rows = 4 }
+
+create table "jjurado".rol 
+  (
+    rol_id integer not null ,
+    rol_nombre char(20) not null ,
+    primary key (rol_id)  constraint "jjurado".pk_rol
+  );
+
+revoke all on "jjurado".rol from "public" as "jjurado";
+
+{ TABLE "jjurado".campo_de_recria row size = 68 number of columns = 5 index size 
+              = 9 }
+{ unload file name = campo00116.unl number of rows = 1 }
+
+create table "jjurado".campo_de_recria 
+  (
+    camprec_id integer not null ,
+    camprec_calle char(20),
+    camprec_esq char(20),
+    camprec_nropuert integer,
+    camprec_nombre char(20),
+    primary key (camprec_id)  constraint "jjurado".pk_campo_de_recria
+  );
+
+revoke all on "jjurado".campo_de_recria from "public" as "jjurado";
+
+{ TABLE "jjurado".campo_de_recria_tel row size = 8 number of columns = 2 index size 
+              = 9 }
+{ unload file name = campo00117.unl number of rows = 1 }
+
+create table "jjurado".campo_de_recria_tel 
+  (
+    camprec_id integer not null ,
+    camprec_tel integer,
+    primary key (camprec_id)  constraint "jjurado".pk_campo_de_recria_tel
+  );
+
+revoke all on "jjurado".campo_de_recria_tel from "public" as "jjurado";
+
+{ TABLE "jjurado".cria row size = 24 number of columns = 2 index size = 9 }
+{ unload file name = cria_00118.unl number of rows = 0 }
+
+create table "jjurado".cria 
+  (
+    id_animal integer not null ,
+    cria_sexo char(20) not null ,
+    primary key (id_animal)  constraint "jjurado".pk_cria
+  );
+
+revoke all on "jjurado".cria from "public" as "jjurado";
+
+{ TABLE "caramburu".tienen row size = 8 number of columns = 2 index size = 31 }
+{ unload file name = tiene00119.unl number of rows = 0 }
+
+create table "caramburu".tienen 
+  (
+    vaca_id integer not null ,
+    toro_id integer not null ,
+    primary key (vaca_id,toro_id)  constraint "caramburu".pk_tienen
+  );
+
+revoke all on "caramburu".tienen from "public" as "caramburu";
+
+{ TABLE "caramburu".trabajan row size = 24 number of columns = 2 index size = 34 
+              }
+{ unload file name = traba00120.unl number of rows = 0 }
+
+create table "caramburu".trabajan 
+  (
+    usu_login char(20) not null ,
+    tambo_id integer not null ,
+    primary key (usu_login)  constraint "caramburu".pk_trabajan
+  );
+
+revoke all on "caramburu".trabajan from "public" as "caramburu";
+
+{ TABLE "caramburu".integra row size = 8 number of columns = 2 index size = 31 }
+{ unload file name = integ00121.unl number of rows = 0 }
+
+create table "caramburu".integra 
+  (
+    tambo_id integer not null ,
+    coop_id integer not null ,
+    primary key (tambo_id,coop_id)  constraint "caramburu".pk_integra
+  );
+
+revoke all on "caramburu".integra from "public" as "caramburu";
+
+{ TABLE "caramburu".posee row size = 24 number of columns = 2 index size = 34 }
+{ unload file name = posee00122.unl number of rows = 0 }
+
+create table "caramburu".posee 
+  (
+    usu_login char(20) not null ,
+    coop_id integer not null ,
+    primary key (usu_login)  constraint "caramburu".pk_posee
+  );
+
+revoke all on "caramburu".posee from "public" as "caramburu";
+
+{ TABLE "caramburu".controla row size = 8 number of columns = 2 index size = 31 }
+{ unload file name = contr00123.unl number of rows = 0 }
+
+create table "caramburu".controla 
+  (
+    parametro_id integer not null ,
+    tambo_id integer not null ,
+    primary key (parametro_id,tambo_id)  constraint "caramburu".pk_controla
+  );
+
+revoke all on "caramburu".controla from "public" as "caramburu";
+
+{ TABLE "samorin".sale row size = 12 number of columns = 3 index size = 35 }
+{ unload file name = sale_00125.unl number of rows = 1 }
+
+create table "samorin".sale 
+  (
+    camprec_id integer not null ,
+    id_animal integer not null ,
+    rec_fechsal date not null ,
+    primary key (camprec_id,id_animal,rec_fechsal)  constraint "samorin".pk_sale
+  );
+
+revoke all on "samorin".sale from "public" as "samorin";
+
+{ TABLE "samorin".reproduccion row size = 32 number of columns = 4 index size = 31 
+              }
+{ unload file name = repro00126.unl number of rows = 1 }
+
+create table "samorin".reproduccion 
+  (
+    vaca_id integer not null ,
+    toro_id integer not null ,
+    repr_fecha date not null ,
+    repr_tipo char(20) not null ,
+    primary key (vaca_id,toro_id)  constraint "samorin".pk_reproduccion
+  );
+
+revoke all on "samorin".reproduccion from "public" as "samorin";
+
+{ TABLE "samorin".esta row size = 16 number of columns = 4 index size = 22 }
+{ unload file name = esta_00127.unl number of rows = 0 }
+
+create table "samorin".esta 
+  (
+    vaca_id integer not null ,
+    estado_id integer,
+    estfech_ini date,
+    estfech_fin date,
+    primary key (vaca_id,estado_id)  constraint "samorin".pk_esta
+  );
+
+revoke all on "samorin".esta from "public" as "samorin";
+
+{ TABLE "samorin".pertenece row size = 8 number of columns = 2 index size = 31 }
+{ unload file name = perte00128.unl number of rows = 2 }
+
+create table "samorin".pertenece 
+  (
+    vaca_id integer not null ,
+    lot_id integer not null ,
+    primary key (vaca_id,lot_id)  constraint "samorin".pk_pertenece
+  );
+
+revoke all on "samorin".pertenece from "public" as "samorin";
+
+{ TABLE "samorin".come row size = 36 number of columns = 5 index size = 31 }
+{ unload file name = come_00129.unl number of rows = 0 }
+
+create table "samorin".come 
+  (
+    animal_id integer not null ,
+    ali_idtipo integer not null ,
+    ali_tipo char(20) not null ,
+    ali_cant integer not null ,
+    ali_fecha date,
+    primary key (animal_id,ali_idtipo)  constraint "samorin".pk_come
+  );
+
+revoke all on "samorin".come from "public" as "samorin";
+
+{ TABLE "samorin".usa row size = 86 number of columns = 6 index size = 47 }
+{ unload file name = usa__00130.unl number of rows = 0 }
+
+create table "samorin".usa 
+  (
+    id_animal integer not null ,
+    med_nombre char(20) not null ,
+    med_idtipo integer not null ,
+    med_motivo char(50) not null ,
+    med_fechini date not null ,
+    med_fechfin date,
+    primary key (id_animal,med_idtipo)  constraint "samorin".pk_usa
+  );
+
+revoke all on "samorin".usa from "public" as "samorin";
+
+{ TABLE "samorin".hace row size = 8 number of columns = 2 index size = 22 }
+{ unload file name = hace_00131.unl number of rows = 0 }
+
+create table "samorin".hace 
+  (
+    vaca_id integer not null ,
+    contrlech_id integer not null ,
+    primary key (vaca_id,contrlech_id)  constraint "samorin".pk_hace
+  );
+
+revoke all on "samorin".hace from "public" as "samorin";
+
+{ TABLE "ibica".medicamento row size = 44 number of columns = 3 index size = 25 }
+{ unload file name = medic00132.unl number of rows = 0 }
+
+create table "ibica".medicamento 
+  (
+    med_nombre char(20) not null ,
+    med_idtipo integer not null ,
+    med_tipo char(20) not null ,
+    primary key (med_nombre)  constraint "ibica".pk_medicamento
+  );
+
+revoke all on "ibica".medicamento from "public" as "ibica";
+
+{ TABLE "jjurado".leche row size = 58 number of columns = 6 index size = 0 }
+{ unload file name = leche00133.unl number of rows = 0 }
+
+create table "jjurado".leche 
+  (
+    leche_fecha datetime year to second not null ,
+    leche_proteinas decimal(16),
+    leche_grasas decimal(16),
+    leche_celsomat decimal(16),
+    leche_litrosdia decimal(16),
+    leche_urea decimal(16)
+  );
+
+revoke all on "jjurado".leche from "public" as "jjurado";
+
+{ TABLE "caramburu".va row size = 16 number of columns = 4 index size = 31 }
+{ unload file name = va___00134.unl number of rows = 1 }
+
+create table "caramburu".va 
+  (
+    camprec_id integer not null ,
+    id_animal integer not null ,
+    rec_feching date not null ,
+    rec_cantenv integer not null ,
+    primary key (camprec_id,id_animal)  constraint "caramburu".pk_va
+  );
+
+revoke all on "caramburu".va from "public" as "caramburu";
+
+{ TABLE "ibica".controllechero row size = 43 number of columns = 7 index size = 9 
+              }
+{ unload file name = contr00135.unl number of rows = 1 }
+
+create table "ibica".controllechero 
+  (
+    contrlech_id integer not null ,
+    contrlech_fech date not null ,
+    contrlech_prote integer not null ,
+    contrlech_grasas integer not null ,
+    contrlech_celsomat decimal(16,2) not null ,
+    contrlech_urea decimal(16,2),
+    contrlech_rb decimal(16,2),
+    primary key (contrlech_id)  constraint "ibica".pk_controllechero
+  );
+
+revoke all on "ibica".controllechero from "public" as "ibica";
+
+
+
+
+grant select on "atrias".animal to "caramburu" as "atrias";
+grant update on "atrias".animal to "caramburu" as "atrias";
+grant insert on "atrias".animal to "caramburu" as "atrias";
+grant delete on "atrias".animal to "caramburu" as "atrias";
+grant index on "atrias".animal to "caramburu" as "atrias";
+grant alter on "atrias".animal to "caramburu" as "atrias";
+grant references on "atrias".animal to "caramburu" as "atrias";
+grant select on "atrias".animal to "exore_admin_coope" as "atrias";
+grant select on "atrias".animal to "exore_admin_sistem" as "atrias";
+grant update on "atrias".animal to "exore_admin_sistem" as "atrias";
+grant insert on "atrias".animal to "exore_admin_sistem" as "atrias";
+grant delete on "atrias".animal to "exore_admin_sistem" as "atrias";
+grant index on "atrias".animal to "exore_admin_sistem" as "atrias";
+grant alter on "atrias".animal to "exore_admin_sistem" as "atrias";
+grant references on "atrias".animal to "exore_admin_sistem" as "atrias";
+grant select on "atrias".animal to "exore_admin_tambo" as "atrias";
+grant update on "atrias".animal to "exore_admin_tambo" as "atrias";
+grant insert on "atrias".animal to "exore_admin_tambo" as "atrias";
+grant delete on "atrias".animal to "exore_admin_tambo" as "atrias";
+grant index on "atrias".animal to "exore_admin_tambo" as "atrias";
+grant alter on "atrias".animal to "exore_admin_tambo" as "atrias";
+grant references on "atrias".animal to "exore_admin_tambo" as "atrias";
+grant select on "atrias".animal to "samorin" as "atrias";
+grant update on "atrias".animal to "samorin" as "atrias";
+grant select on "atrias".animal to "exore_auxiliar" as "atrias";
+grant update on "atrias".animal to "exore_auxiliar" as "atrias";
+grant select on "atrias".animal to "ibica" as "atrias";
+grant update on "atrias".animal to "ibica" as "atrias";
+grant insert on "atrias".animal to "ibica" as "atrias";
+grant delete on "atrias".animal to "ibica" as "atrias";
+grant index on "atrias".animal to "ibica" as "atrias";
+grant alter on "atrias".animal to "ibica" as "atrias";
+grant references on "atrias".animal to "ibica" as "atrias";
+grant select on "atrias".animal to "jjurado" as "atrias";
+grant update on "atrias".animal to "jjurado" as "atrias";
+grant insert on "atrias".animal to "jjurado" as "atrias";
+grant delete on "atrias".animal to "jjurado" as "atrias";
+grant index on "atrias".animal to "jjurado" as "atrias";
+grant alter on "atrias".animal to "jjurado" as "atrias";
+grant references on "atrias".animal to "jjurado" as "atrias";
+grant select on "atrias".animal to "public" as "atrias";
+grant update on "atrias".animal to "public" as "atrias";
+grant insert on "atrias".animal to "public" as "atrias";
+grant delete on "atrias".animal to "public" as "atrias";
+grant index on "atrias".animal to "public" as "atrias";
+grant select on "atrias".tambo to "caramburu" as "atrias";
+grant update on "atrias".tambo to "caramburu" as "atrias";
+grant insert on "atrias".tambo to "caramburu" as "atrias";
+grant delete on "atrias".tambo to "caramburu" as "atrias";
+grant index on "atrias".tambo to "caramburu" as "atrias";
+grant alter on "atrias".tambo to "caramburu" as "atrias";
+grant references on "atrias".tambo to "caramburu" as "atrias";
+grant select on "atrias".tambo to "exore_admin_coope" as "atrias";
+grant update on "atrias".tambo to "exore_admin_coope" as "atrias";
+grant insert on "atrias".tambo to "exore_admin_coope" as "atrias";
+grant delete on "atrias".tambo to "exore_admin_coope" as "atrias";
+grant index on "atrias".tambo to "exore_admin_coope" as "atrias";
+grant alter on "atrias".tambo to "exore_admin_coope" as "atrias";
+grant references on "atrias".tambo to "exore_admin_coope" as "atrias";
+grant select on "atrias".tambo to "exore_admin_sistem" as "atrias";
+grant update on "atrias".tambo to "exore_admin_sistem" as "atrias";
+grant insert on "atrias".tambo to "exore_admin_sistem" as "atrias";
+grant delete on "atrias".tambo to "exore_admin_sistem" as "atrias";
+grant index on "atrias".tambo to "exore_admin_sistem" as "atrias";
+grant alter on "atrias".tambo to "exore_admin_sistem" as "atrias";
+grant references on "atrias".tambo to "exore_admin_sistem" as "atrias";
+grant select on "atrias".tambo to "public" as "atrias";
+grant update on "atrias".tambo to "public" as "atrias";
+grant insert on "atrias".tambo to "public" as "atrias";
+grant delete on "atrias".tambo to "public" as "atrias";
+grant index on "atrias".tambo to "public" as "atrias";
+grant select on "atrias".tambo to "exore_admin_tambo" as "atrias";
+grant update on "atrias".tambo to "exore_admin_tambo" as "atrias";
+grant insert on "atrias".tambo to "exore_admin_tambo" as "atrias";
+grant delete on "atrias".tambo to "exore_admin_tambo" as "atrias";
+grant index on "atrias".tambo to "exore_admin_tambo" as "atrias";
+grant alter on "atrias".tambo to "exore_admin_tambo" as "atrias";
+grant references on "atrias".tambo to "exore_admin_tambo" as "atrias";
+grant select on "atrias".tambo to "ibica" as "atrias";
+grant update on "atrias".tambo to "ibica" as "atrias";
+grant insert on "atrias".tambo to "ibica" as "atrias";
+grant delete on "atrias".tambo to "ibica" as "atrias";
+grant index on "atrias".tambo to "ibica" as "atrias";
+grant alter on "atrias".tambo to "ibica" as "atrias";
+grant references on "atrias".tambo to "ibica" as "atrias";
+grant select on "atrias".tambo to "jjurado" as "atrias";
+grant update on "atrias".tambo to "jjurado" as "atrias";
+grant insert on "atrias".tambo to "jjurado" as "atrias";
+grant delete on "atrias".tambo to "jjurado" as "atrias";
+grant index on "atrias".tambo to "jjurado" as "atrias";
+grant alter on "atrias".tambo to "jjurado" as "atrias";
+grant references on "atrias".tambo to "jjurado" as "atrias";
+grant select on "atrias".tambo_tel to "caramburu" as "atrias";
+grant update on "atrias".tambo_tel to "caramburu" as "atrias";
+grant insert on "atrias".tambo_tel to "caramburu" as "atrias";
+grant delete on "atrias".tambo_tel to "caramburu" as "atrias";
+grant index on "atrias".tambo_tel to "caramburu" as "atrias";
+grant alter on "atrias".tambo_tel to "caramburu" as "atrias";
+grant references on "atrias".tambo_tel to "caramburu" as "atrias";
+grant select on "atrias".tambo_tel to "exore_admin_coope" as "atrias";
+grant update on "atrias".tambo_tel to "exore_admin_coope" as "atrias";
+grant insert on "atrias".tambo_tel to "exore_admin_coope" as "atrias";
+grant delete on "atrias".tambo_tel to "exore_admin_coope" as "atrias";
+grant index on "atrias".tambo_tel to "exore_admin_coope" as "atrias";
+grant alter on "atrias".tambo_tel to "exore_admin_coope" as "atrias";
+grant references on "atrias".tambo_tel to "exore_admin_coope" as "atrias";
+grant select on "atrias".tambo_tel to "exore_admin_sistem" as "atrias";
+grant update on "atrias".tambo_tel to "exore_admin_sistem" as "atrias";
+grant insert on "atrias".tambo_tel to "exore_admin_sistem" as "atrias";
+grant delete on "atrias".tambo_tel to "exore_admin_sistem" as "atrias";
+grant index on "atrias".tambo_tel to "exore_admin_sistem" as "atrias";
+grant alter on "atrias".tambo_tel to "exore_admin_sistem" as "atrias";
+grant references on "atrias".tambo_tel to "exore_admin_sistem" as "atrias";
+grant select on "atrias".tambo_tel to "exore_admin_tambo" as "atrias";
+grant update on "atrias".tambo_tel to "exore_admin_tambo" as "atrias";
+grant insert on "atrias".tambo_tel to "exore_admin_tambo" as "atrias";
+grant delete on "atrias".tambo_tel to "exore_admin_tambo" as "atrias";
+grant index on "atrias".tambo_tel to "exore_admin_tambo" as "atrias";
+grant alter on "atrias".tambo_tel to "exore_admin_tambo" as "atrias";
+grant references on "atrias".tambo_tel to "exore_admin_tambo" as "atrias";
+grant select on "atrias".tambo_tel to "samorin" as "atrias";
+grant select on "atrias".tambo_tel to "exore_auxiliar" as "atrias";
+grant select on "atrias".tambo_tel to "ibica" as "atrias";
+grant update on "atrias".tambo_tel to "ibica" as "atrias";
+grant insert on "atrias".tambo_tel to "ibica" as "atrias";
+grant delete on "atrias".tambo_tel to "ibica" as "atrias";
+grant index on "atrias".tambo_tel to "ibica" as "atrias";
+grant alter on "atrias".tambo_tel to "ibica" as "atrias";
+grant references on "atrias".tambo_tel to "ibica" as "atrias";
+grant select on "atrias".tambo_tel to "jjurado" as "atrias";
+grant update on "atrias".tambo_tel to "jjurado" as "atrias";
+grant insert on "atrias".tambo_tel to "jjurado" as "atrias";
+grant delete on "atrias".tambo_tel to "jjurado" as "atrias";
+grant index on "atrias".tambo_tel to "jjurado" as "atrias";
+grant alter on "atrias".tambo_tel to "jjurado" as "atrias";
+grant references on "atrias".tambo_tel to "jjurado" as "atrias";
+grant select on "atrias".tambo_tel to "public" as "atrias";
+grant update on "atrias".tambo_tel to "public" as "atrias";
+grant insert on "atrias".tambo_tel to "public" as "atrias";
+grant delete on "atrias".tambo_tel to "public" as "atrias";
+grant index on "atrias".tambo_tel to "public" as "atrias";
+grant select on "atrias".usuarios to "caramburu" as "atrias";
+grant update on "atrias".usuarios to "caramburu" as "atrias";
+grant insert on "atrias".usuarios to "caramburu" as "atrias";
+grant delete on "atrias".usuarios to "caramburu" as "atrias";
+grant index on "atrias".usuarios to "caramburu" as "atrias";
+grant alter on "atrias".usuarios to "caramburu" as "atrias";
+grant references on "atrias".usuarios to "caramburu" as "atrias";
+grant select on "atrias".usuarios to "exore_admin_coope" as "atrias";
+grant update on "atrias".usuarios to "exore_admin_coope" as "atrias";
+grant insert on "atrias".usuarios to "exore_admin_coope" as "atrias";
+grant delete on "atrias".usuarios to "exore_admin_coope" as "atrias";
+grant index on "atrias".usuarios to "exore_admin_coope" as "atrias";
+grant alter on "atrias".usuarios to "exore_admin_coope" as "atrias";
+grant references on "atrias".usuarios to "exore_admin_coope" as "atrias";
+grant select on "atrias".usuarios to "exore_admin_sistem" as "atrias";
+grant update on "atrias".usuarios to "exore_admin_sistem" as "atrias";
+grant insert on "atrias".usuarios to "exore_admin_sistem" as "atrias";
+grant delete on "atrias".usuarios to "exore_admin_sistem" as "atrias";
+grant index on "atrias".usuarios to "exore_admin_sistem" as "atrias";
+grant alter on "atrias".usuarios to "exore_admin_sistem" as "atrias";
+grant references on "atrias".usuarios to "exore_admin_sistem" as "atrias";
+grant select on "atrias".usuarios to "exore_admin_tambo" as "atrias";
+grant update on "atrias".usuarios to "exore_admin_tambo" as "atrias";
+grant insert on "atrias".usuarios to "exore_admin_tambo" as "atrias";
+grant delete on "atrias".usuarios to "exore_admin_tambo" as "atrias";
+grant index on "atrias".usuarios to "exore_admin_tambo" as "atrias";
+grant alter on "atrias".usuarios to "exore_admin_tambo" as "atrias";
+grant references on "atrias".usuarios to "exore_admin_tambo" as "atrias";
+grant select on "atrias".usuarios to "public" as "atrias";
+grant update on "atrias".usuarios to "public" as "atrias";
+grant insert on "atrias".usuarios to "public" as "atrias";
+grant delete on "atrias".usuarios to "public" as "atrias";
+grant index on "atrias".usuarios to "public" as "atrias";
+grant select on "atrias".usuarios to "ibica" as "atrias";
+grant update on "atrias".usuarios to "ibica" as "atrias";
+grant insert on "atrias".usuarios to "ibica" as "atrias";
+grant delete on "atrias".usuarios to "ibica" as "atrias";
+grant index on "atrias".usuarios to "ibica" as "atrias";
+grant alter on "atrias".usuarios to "ibica" as "atrias";
+grant references on "atrias".usuarios to "ibica" as "atrias";
+grant select on "atrias".usuarios to "jjurado" as "atrias";
+grant update on "atrias".usuarios to "jjurado" as "atrias";
+grant insert on "atrias".usuarios to "jjurado" as "atrias";
+grant delete on "atrias".usuarios to "jjurado" as "atrias";
+grant index on "atrias".usuarios to "jjurado" as "atrias";
+grant alter on "atrias".usuarios to "jjurado" as "atrias";
+grant references on "atrias".usuarios to "jjurado" as "atrias";
+grant select on "atrias".usuarios_usu_tel to "caramburu" as "atrias";
+grant update on "atrias".usuarios_usu_tel to "caramburu" as "atrias";
+grant insert on "atrias".usuarios_usu_tel to "caramburu" as "atrias";
+grant delete on "atrias".usuarios_usu_tel to "caramburu" as "atrias";
+grant index on "atrias".usuarios_usu_tel to "caramburu" as "atrias";
+grant alter on "atrias".usuarios_usu_tel to "caramburu" as "atrias";
+grant references on "atrias".usuarios_usu_tel to "caramburu" as "atrias";
+grant select on "atrias".usuarios_usu_tel to "exore_admin_coope" as "atrias";
+grant update on "atrias".usuarios_usu_tel to "exore_admin_coope" as "atrias";
+grant insert on "atrias".usuarios_usu_tel to "exore_admin_coope" as "atrias";
+grant delete on "atrias".usuarios_usu_tel to "exore_admin_coope" as "atrias";
+grant index on "atrias".usuarios_usu_tel to "exore_admin_coope" as "atrias";
+grant alter on "atrias".usuarios_usu_tel to "exore_admin_coope" as "atrias";
+grant references on "atrias".usuarios_usu_tel to "exore_admin_coope" as "atrias";
+grant select on "atrias".usuarios_usu_tel to "exore_admin_sistem" as "atrias";
+grant update on "atrias".usuarios_usu_tel to "exore_admin_sistem" as "atrias";
+grant insert on "atrias".usuarios_usu_tel to "exore_admin_sistem" as "atrias";
+grant delete on "atrias".usuarios_usu_tel to "exore_admin_sistem" as "atrias";
+grant index on "atrias".usuarios_usu_tel to "exore_admin_sistem" as "atrias";
+grant alter on "atrias".usuarios_usu_tel to "exore_admin_sistem" as "atrias";
+grant references on "atrias".usuarios_usu_tel to "exore_admin_sistem" as "atrias";
+grant select on "atrias".usuarios_usu_tel to "exore_admin_tambo" as "atrias";
+grant update on "atrias".usuarios_usu_tel to "exore_admin_tambo" as "atrias";
+grant insert on "atrias".usuarios_usu_tel to "exore_admin_tambo" as "atrias";
+grant delete on "atrias".usuarios_usu_tel to "exore_admin_tambo" as "atrias";
+grant index on "atrias".usuarios_usu_tel to "exore_admin_tambo" as "atrias";
+grant alter on "atrias".usuarios_usu_tel to "exore_admin_tambo" as "atrias";
+grant references on "atrias".usuarios_usu_tel to "exore_admin_tambo" as "atrias";
+grant select on "atrias".usuarios_usu_tel to "ibica" as "atrias";
+grant update on "atrias".usuarios_usu_tel to "ibica" as "atrias";
+grant insert on "atrias".usuarios_usu_tel to "ibica" as "atrias";
+grant delete on "atrias".usuarios_usu_tel to "ibica" as "atrias";
+grant index on "atrias".usuarios_usu_tel to "ibica" as "atrias";
+grant alter on "atrias".usuarios_usu_tel to "ibica" as "atrias";
+grant references on "atrias".usuarios_usu_tel to "ibica" as "atrias";
+grant select on "atrias".usuarios_usu_tel to "jjurado" as "atrias";
+grant update on "atrias".usuarios_usu_tel to "jjurado" as "atrias";
+grant insert on "atrias".usuarios_usu_tel to "jjurado" as "atrias";
+grant delete on "atrias".usuarios_usu_tel to "jjurado" as "atrias";
+grant index on "atrias".usuarios_usu_tel to "jjurado" as "atrias";
+grant alter on "atrias".usuarios_usu_tel to "jjurado" as "atrias";
+grant references on "atrias".usuarios_usu_tel to "jjurado" as "atrias";
+grant select on "atrias".usuarios_usu_tel to "public" as "atrias";
+grant update on "atrias".usuarios_usu_tel to "public" as "atrias";
+grant insert on "atrias".usuarios_usu_tel to "public" as "atrias";
+grant delete on "atrias".usuarios_usu_tel to "public" as "atrias";
+grant index on "atrias".usuarios_usu_tel to "public" as "atrias";
+grant select on "atrias".cooperativa to "exore_admin_coope" as "atrias";
+grant update on "atrias".cooperativa to "exore_admin_coope" as "atrias";
+grant insert on "atrias".cooperativa to "exore_admin_coope" as "atrias";
+grant delete on "atrias".cooperativa to "exore_admin_coope" as "atrias";
+grant index on "atrias".cooperativa to "exore_admin_coope" as "atrias";
+grant alter on "atrias".cooperativa to "exore_admin_coope" as "atrias";
+grant references on "atrias".cooperativa to "exore_admin_coope" as "atrias";
+grant select on "atrias".cooperativa to "exore_admin_sistem" as "atrias";
+grant update on "atrias".cooperativa to "exore_admin_sistem" as "atrias";
+grant insert on "atrias".cooperativa to "exore_admin_sistem" as "atrias";
+grant delete on "atrias".cooperativa to "exore_admin_sistem" as "atrias";
+grant index on "atrias".cooperativa to "exore_admin_sistem" as "atrias";
+grant alter on "atrias".cooperativa to "exore_admin_sistem" as "atrias";
+grant references on "atrias".cooperativa to "exore_admin_sistem" as "atrias";
+grant select on "atrias".cooperativa to "public" as "atrias";
+grant update on "atrias".cooperativa to "public" as "atrias";
+grant insert on "atrias".cooperativa to "public" as "atrias";
+grant delete on "atrias".cooperativa to "public" as "atrias";
+grant index on "atrias".cooperativa to "public" as "atrias";
+grant select on "atrias".cooperativa to "ibica" as "atrias";
+grant update on "atrias".cooperativa to "ibica" as "atrias";
+grant insert on "atrias".cooperativa to "ibica" as "atrias";
+grant delete on "atrias".cooperativa to "ibica" as "atrias";
+grant index on "atrias".cooperativa to "ibica" as "atrias";
+grant alter on "atrias".cooperativa to "ibica" as "atrias";
+grant references on "atrias".cooperativa to "ibica" as "atrias";
+grant select on "atrias".cooperativa_cooptel to "caramburu" as "atrias";
+grant select on "atrias".cooperativa_cooptel to "public" as "atrias";
+grant update on "atrias".cooperativa_cooptel to "public" as "atrias";
+grant insert on "atrias".cooperativa_cooptel to "public" as "atrias";
+grant delete on "atrias".cooperativa_cooptel to "public" as "atrias";
+grant index on "atrias".cooperativa_cooptel to "public" as "atrias";
+grant select on "atrias".cooperativa_cooptel to "exore_admin_coope" as "atrias";
+grant update on "atrias".cooperativa_cooptel to "exore_admin_coope" as "atrias";
+grant insert on "atrias".cooperativa_cooptel to "exore_admin_coope" as "atrias";
+grant delete on "atrias".cooperativa_cooptel to "exore_admin_coope" as "atrias";
+grant index on "atrias".cooperativa_cooptel to "exore_admin_coope" as "atrias";
+grant alter on "atrias".cooperativa_cooptel to "exore_admin_coope" as "atrias";
+grant references on "atrias".cooperativa_cooptel to "exore_admin_coope" as "atrias";
+grant select on "atrias".cooperativa_cooptel to "exore_admin_sistem" as "atrias";
+grant update on "atrias".cooperativa_cooptel to "exore_admin_sistem" as "atrias";
+grant insert on "atrias".cooperativa_cooptel to "exore_admin_sistem" as "atrias";
+grant delete on "atrias".cooperativa_cooptel to "exore_admin_sistem" as "atrias";
+grant index on "atrias".cooperativa_cooptel to "exore_admin_sistem" as "atrias";
+grant alter on "atrias".cooperativa_cooptel to "exore_admin_sistem" as "atrias";
+grant references on "atrias".cooperativa_cooptel to "exore_admin_sistem" as "atrias";
+grant select on "atrias".cooperativa_cooptel to "exore_admin_tambo" as "atrias";
+grant select on "atrias".cooperativa_cooptel to "ibica" as "atrias";
+grant update on "atrias".cooperativa_cooptel to "ibica" as "atrias";
+grant insert on "atrias".cooperativa_cooptel to "ibica" as "atrias";
+grant delete on "atrias".cooperativa_cooptel to "ibica" as "atrias";
+grant index on "atrias".cooperativa_cooptel to "ibica" as "atrias";
+grant alter on "atrias".cooperativa_cooptel to "ibica" as "atrias";
+grant references on "atrias".cooperativa_cooptel to "ibica" as "atrias";
+grant select on "atrias".cooperativa_cooptel to "jjurado" as "atrias";
+grant select on "ibica".parametrotambo to "caramburu" as "ibica";
+grant update on "ibica".parametrotambo to "caramburu" as "ibica";
+grant insert on "ibica".parametrotambo to "caramburu" as "ibica";
+grant delete on "ibica".parametrotambo to "caramburu" as "ibica";
+grant index on "ibica".parametrotambo to "caramburu" as "ibica";
+grant alter on "ibica".parametrotambo to "caramburu" as "ibica";
+grant references on "ibica".parametrotambo to "caramburu" as "ibica";
+grant select on "ibica".parametrotambo to "exore_admin_sistem" as "ibica";
+grant update on "ibica".parametrotambo to "exore_admin_sistem" as "ibica";
+grant insert on "ibica".parametrotambo to "exore_admin_sistem" as "ibica";
+grant delete on "ibica".parametrotambo to "exore_admin_sistem" as "ibica";
+grant index on "ibica".parametrotambo to "exore_admin_sistem" as "ibica";
+grant alter on "ibica".parametrotambo to "exore_admin_sistem" as "ibica";
+grant references on "ibica".parametrotambo to "exore_admin_sistem" as "ibica";
+grant select on "ibica".parametrotambo to "exore_admin_tambo" as "ibica";
+grant update on "ibica".parametrotambo to "exore_admin_tambo" as "ibica";
+grant insert on "ibica".parametrotambo to "exore_admin_tambo" as "ibica";
+grant delete on "ibica".parametrotambo to "exore_admin_tambo" as "ibica";
+grant index on "ibica".parametrotambo to "exore_admin_tambo" as "ibica";
+grant alter on "ibica".parametrotambo to "exore_admin_tambo" as "ibica";
+grant references on "ibica".parametrotambo to "exore_admin_tambo" as "ibica";
+grant select on "ibica".parametrotambo to "samorin" as "ibica";
+grant select on "ibica".parametrotambo to "exore_auxiliar" as "ibica";
+grant select on "ibica".parametrotambo to "jjurado" as "ibica";
+grant update on "ibica".parametrotambo to "jjurado" as "ibica";
+grant insert on "ibica".parametrotambo to "jjurado" as "ibica";
+grant delete on "ibica".parametrotambo to "jjurado" as "ibica";
+grant index on "ibica".parametrotambo to "jjurado" as "ibica";
+grant alter on "ibica".parametrotambo to "jjurado" as "ibica";
+grant references on "ibica".parametrotambo to "jjurado" as "ibica";
+grant select on "ibica".parametrotambo to "public" as "ibica";
+grant update on "ibica".parametrotambo to "public" as "ibica";
+grant insert on "ibica".parametrotambo to "public" as "ibica";
+grant delete on "ibica".parametrotambo to "public" as "ibica";
+grant index on "ibica".parametrotambo to "public" as "ibica";
+grant select on "ibica".estado to "atrias" as "ibica";
+grant select on "ibica".estado to "caramburu" as "ibica";
+grant update on "ibica".estado to "caramburu" as "ibica";
+grant delete on "ibica".estado to "caramburu" as "ibica";
+grant select on "ibica".estado to "samorin" as "ibica";
+grant update on "ibica".estado to "samorin" as "ibica";
+grant insert on "ibica".estado to "samorin" as "ibica";
+grant select on "ibica".estado to "exore_admin_coope" as "ibica";
+grant select on "ibica".estado to "exore_admin_sistem" as "ibica";
+grant update on "ibica".estado to "exore_admin_sistem" as "ibica";
+grant insert on "ibica".estado to "exore_admin_sistem" as "ibica";
+grant delete on "ibica".estado to "exore_admin_sistem" as "ibica";
+grant index on "ibica".estado to "exore_admin_sistem" as "ibica";
+grant alter on "ibica".estado to "exore_admin_sistem" as "ibica";
+grant references on "ibica".estado to "exore_admin_sistem" as "ibica";
+grant select on "ibica".estado to "exore_admin_tambo" as "ibica";
+grant update on "ibica".estado to "exore_admin_tambo" as "ibica";
+grant delete on "ibica".estado to "exore_admin_tambo" as "ibica";
+grant select on "ibica".estado to "exore_auxiliar" as "ibica";
+grant update on "ibica".estado to "exore_auxiliar" as "ibica";
+grant insert on "ibica".estado to "exore_auxiliar" as "ibica";
+grant select on "ibica".estado to "jjurado" as "ibica";
+grant update on "ibica".estado to "jjurado" as "ibica";
+grant delete on "ibica".estado to "jjurado" as "ibica";
+grant select on "ibica".estado to "public" as "ibica";
+grant update on "ibica".estado to "public" as "ibica";
+grant insert on "ibica".estado to "public" as "ibica";
+grant delete on "ibica".estado to "public" as "ibica";
+grant index on "ibica".estado to "public" as "ibica";
+grant select on "ibica".lote to "atrias" as "ibica";
+grant select on "ibica".lote to "caramburu" as "ibica";
+grant update on "ibica".lote to "caramburu" as "ibica";
+grant insert on "ibica".lote to "caramburu" as "ibica";
+grant delete on "ibica".lote to "caramburu" as "ibica";
+grant index on "ibica".lote to "caramburu" as "ibica";
+grant alter on "ibica".lote to "caramburu" as "ibica";
+grant references on "ibica".lote to "caramburu" as "ibica";
+grant select on "ibica".lote to "exore_admin_coope" as "ibica";
+grant select on "ibica".lote to "exore_admin_sistem" as "ibica";
+grant update on "ibica".lote to "exore_admin_sistem" as "ibica";
+grant insert on "ibica".lote to "exore_admin_sistem" as "ibica";
+grant delete on "ibica".lote to "exore_admin_sistem" as "ibica";
+grant index on "ibica".lote to "exore_admin_sistem" as "ibica";
+grant alter on "ibica".lote to "exore_admin_sistem" as "ibica";
+grant references on "ibica".lote to "exore_admin_sistem" as "ibica";
+grant select on "ibica".lote to "samorin" as "ibica";
+grant select on "ibica".lote to "exore_admin_tambo" as "ibica";
+grant update on "ibica".lote to "exore_admin_tambo" as "ibica";
+grant insert on "ibica".lote to "exore_admin_tambo" as "ibica";
+grant delete on "ibica".lote to "exore_admin_tambo" as "ibica";
+grant index on "ibica".lote to "exore_admin_tambo" as "ibica";
+grant alter on "ibica".lote to "exore_admin_tambo" as "ibica";
+grant references on "ibica".lote to "exore_admin_tambo" as "ibica";
+grant select on "ibica".lote to "exore_auxiliar" as "ibica";
+grant select on "ibica".lote to "jjurado" as "ibica";
+grant update on "ibica".lote to "jjurado" as "ibica";
+grant insert on "ibica".lote to "jjurado" as "ibica";
+grant delete on "ibica".lote to "jjurado" as "ibica";
+grant index on "ibica".lote to "jjurado" as "ibica";
+grant alter on "ibica".lote to "jjurado" as "ibica";
+grant references on "ibica".lote to "jjurado" as "ibica";
+grant select on "ibica".lote to "public" as "ibica";
+grant update on "ibica".lote to "public" as "ibica";
+grant insert on "ibica".lote to "public" as "ibica";
+grant delete on "ibica".lote to "public" as "ibica";
+grant index on "ibica".lote to "public" as "ibica";
+grant select on "ibica".vaca to "atrias" as "ibica";
+grant select on "ibica".vaca to "caramburu" as "ibica";
+grant update on "ibica".vaca to "caramburu" as "ibica";
+grant insert on "ibica".vaca to "caramburu" as "ibica";
+grant delete on "ibica".vaca to "caramburu" as "ibica";
+grant index on "ibica".vaca to "caramburu" as "ibica";
+grant alter on "ibica".vaca to "caramburu" as "ibica";
+grant references on "ibica".vaca to "caramburu" as "ibica";
+grant select on "ibica".vaca to "exore_admin_coope" as "ibica";
+grant select on "ibica".vaca to "exore_admin_sistem" as "ibica";
+grant update on "ibica".vaca to "exore_admin_sistem" as "ibica";
+grant insert on "ibica".vaca to "exore_admin_sistem" as "ibica";
+grant delete on "ibica".vaca to "exore_admin_sistem" as "ibica";
+grant index on "ibica".vaca to "exore_admin_sistem" as "ibica";
+grant alter on "ibica".vaca to "exore_admin_sistem" as "ibica";
+grant references on "ibica".vaca to "exore_admin_sistem" as "ibica";
+grant select on "ibica".vaca to "samorin" as "ibica";
+grant update on "ibica".vaca to "samorin" as "ibica";
+grant select on "ibica".vaca to "exore_admin_tambo" as "ibica";
+grant update on "ibica".vaca to "exore_admin_tambo" as "ibica";
+grant insert on "ibica".vaca to "exore_admin_tambo" as "ibica";
+grant delete on "ibica".vaca to "exore_admin_tambo" as "ibica";
+grant index on "ibica".vaca to "exore_admin_tambo" as "ibica";
+grant alter on "ibica".vaca to "exore_admin_tambo" as "ibica";
+grant references on "ibica".vaca to "exore_admin_tambo" as "ibica";
+grant select on "ibica".vaca to "exore_auxiliar" as "ibica";
+grant update on "ibica".vaca to "exore_auxiliar" as "ibica";
+grant select on "ibica".vaca to "jjurado" as "ibica";
+grant update on "ibica".vaca to "jjurado" as "ibica";
+grant insert on "ibica".vaca to "jjurado" as "ibica";
+grant delete on "ibica".vaca to "jjurado" as "ibica";
+grant index on "ibica".vaca to "jjurado" as "ibica";
+grant alter on "ibica".vaca to "jjurado" as "ibica";
+grant references on "ibica".vaca to "jjurado" as "ibica";
+grant select on "ibica".vaca to "public" as "ibica";
+grant update on "ibica".vaca to "public" as "ibica";
+grant insert on "ibica".vaca to "public" as "ibica";
+grant delete on "ibica".vaca to "public" as "ibica";
+grant index on "ibica".vaca to "public" as "ibica";
+grant select on "ibica".toro to "atrias" as "ibica";
+grant select on "ibica".toro to "caramburu" as "ibica";
+grant update on "ibica".toro to "caramburu" as "ibica";
+grant insert on "ibica".toro to "caramburu" as "ibica";
+grant delete on "ibica".toro to "caramburu" as "ibica";
+grant index on "ibica".toro to "caramburu" as "ibica";
+grant alter on "ibica".toro to "caramburu" as "ibica";
+grant references on "ibica".toro to "caramburu" as "ibica";
+grant select on "ibica".toro to "exore_admin_coope" as "ibica";
+grant select on "ibica".toro to "exore_admin_sistem" as "ibica";
+grant update on "ibica".toro to "exore_admin_sistem" as "ibica";
+grant insert on "ibica".toro to "exore_admin_sistem" as "ibica";
+grant delete on "ibica".toro to "exore_admin_sistem" as "ibica";
+grant index on "ibica".toro to "exore_admin_sistem" as "ibica";
+grant alter on "ibica".toro to "exore_admin_sistem" as "ibica";
+grant references on "ibica".toro to "exore_admin_sistem" as "ibica";
+grant select on "ibica".toro to "samorin" as "ibica";
+grant update on "ibica".toro to "samorin" as "ibica";
+grant select on "ibica".toro to "exore_admin_tambo" as "ibica";
+grant update on "ibica".toro to "exore_admin_tambo" as "ibica";
+grant insert on "ibica".toro to "exore_admin_tambo" as "ibica";
+grant delete on "ibica".toro to "exore_admin_tambo" as "ibica";
+grant index on "ibica".toro to "exore_admin_tambo" as "ibica";
+grant alter on "ibica".toro to "exore_admin_tambo" as "ibica";
+grant references on "ibica".toro to "exore_admin_tambo" as "ibica";
+grant select on "ibica".toro to "exore_auxiliar" as "ibica";
+grant update on "ibica".toro to "exore_auxiliar" as "ibica";
+grant select on "ibica".toro to "jjurado" as "ibica";
+grant update on "ibica".toro to "jjurado" as "ibica";
+grant insert on "ibica".toro to "jjurado" as "ibica";
+grant delete on "ibica".toro to "jjurado" as "ibica";
+grant index on "ibica".toro to "jjurado" as "ibica";
+grant alter on "ibica".toro to "jjurado" as "ibica";
+grant references on "ibica".toro to "jjurado" as "ibica";
+grant select on "ibica".toro to "public" as "ibica";
+grant update on "ibica".toro to "public" as "ibica";
+grant insert on "ibica".toro to "public" as "ibica";
+grant delete on "ibica".toro to "public" as "ibica";
+grant index on "ibica".toro to "public" as "ibica";
+grant select on "jjurado".alimentos to "admin_tambo" as "jjurado";
+grant update on "jjurado".alimentos to "admin_tambo" as "jjurado";
+grant delete on "jjurado".alimentos to "admin_tambo" as "jjurado";
+grant select on "jjurado".alimentos to "samorin" as "jjurado";
+grant update on "jjurado".alimentos to "samorin" as "jjurado";
+grant insert on "jjurado".alimentos to "samorin" as "jjurado";
+grant delete on "jjurado".alimentos to "samorin" as "jjurado";
+grant index on "jjurado".alimentos to "samorin" as "jjurado";
+grant alter on "jjurado".alimentos to "samorin" as "jjurado";
+grant references on "jjurado".alimentos to "samorin" as "jjurado";
+grant select on "jjurado".alimentos to "atrias" as "jjurado";
+grant select on "jjurado".alimentos to "caramburu" as "jjurado";
+grant update on "jjurado".alimentos to "caramburu" as "jjurado";
+grant delete on "jjurado".alimentos to "caramburu" as "jjurado";
+grant select on "jjurado".alimentos to "exore_admin_coope" as "jjurado";
+grant select on "jjurado".alimentos to "exore_admin_sistem" as "jjurado";
+grant update on "jjurado".alimentos to "exore_admin_sistem" as "jjurado";
+grant insert on "jjurado".alimentos to "exore_admin_sistem" as "jjurado";
+grant delete on "jjurado".alimentos to "exore_admin_sistem" as "jjurado";
+grant index on "jjurado".alimentos to "exore_admin_sistem" as "jjurado";
+grant alter on "jjurado".alimentos to "exore_admin_sistem" as "jjurado";
+grant references on "jjurado".alimentos to "exore_admin_sistem" as "jjurado";
+grant select on "jjurado".alimentos to "exore_admin_tambo" as "jjurado";
+grant update on "jjurado".alimentos to "exore_admin_tambo" as "jjurado";
+grant delete on "jjurado".alimentos to "exore_admin_tambo" as "jjurado";
+grant select on "jjurado".alimentos to "exore_auxiliar" as "jjurado";
+grant update on "jjurado".alimentos to "exore_auxiliar" as "jjurado";
+grant insert on "jjurado".alimentos to "exore_auxiliar" as "jjurado";
+grant delete on "jjurado".alimentos to "exore_auxiliar" as "jjurado";
+grant index on "jjurado".alimentos to "exore_auxiliar" as "jjurado";
+grant alter on "jjurado".alimentos to "exore_auxiliar" as "jjurado";
+grant references on "jjurado".alimentos to "exore_auxiliar" as "jjurado";
+grant select on "jjurado".alimentos to "ibica" as "jjurado";
+grant update on "jjurado".alimentos to "ibica" as "jjurado";
+grant insert on "jjurado".alimentos to "ibica" as "jjurado";
+grant delete on "jjurado".alimentos to "ibica" as "jjurado";
+grant index on "jjurado".alimentos to "ibica" as "jjurado";
+grant alter on "jjurado".alimentos to "ibica" as "jjurado";
+grant references on "jjurado".alimentos to "ibica" as "jjurado";
+grant select on "jjurado".alimentos to "public" as "jjurado";
+grant update on "jjurado".alimentos to "public" as "jjurado";
+grant insert on "jjurado".alimentos to "public" as "jjurado";
+grant delete on "jjurado".alimentos to "public" as "jjurado";
+grant index on "jjurado".alimentos to "public" as "jjurado";
+grant select on "jjurado".secado to "caramburu" as "jjurado";
+grant select on "jjurado".secado to "exore_admin_sistem" as "jjurado";
+grant update on "jjurado".secado to "exore_admin_sistem" as "jjurado";
+grant insert on "jjurado".secado to "exore_admin_sistem" as "jjurado";
+grant delete on "jjurado".secado to "exore_admin_sistem" as "jjurado";
+grant index on "jjurado".secado to "exore_admin_sistem" as "jjurado";
+grant alter on "jjurado".secado to "exore_admin_sistem" as "jjurado";
+grant references on "jjurado".secado to "exore_admin_sistem" as "jjurado";
+grant select on "jjurado".secado to "admin_tambo" as "jjurado";
+grant select on "jjurado".secado to "exore_admin_tambo" as "jjurado";
+grant select on "jjurado".secado to "samorin" as "jjurado";
+grant update on "jjurado".secado to "samorin" as "jjurado";
+grant insert on "jjurado".secado to "samorin" as "jjurado";
+grant delete on "jjurado".secado to "samorin" as "jjurado";
+grant index on "jjurado".secado to "samorin" as "jjurado";
+grant alter on "jjurado".secado to "samorin" as "jjurado";
+grant references on "jjurado".secado to "samorin" as "jjurado";
+grant select on "jjurado".secado to "exore_auxiliar" as "jjurado";
+grant update on "jjurado".secado to "exore_auxiliar" as "jjurado";
+grant insert on "jjurado".secado to "exore_auxiliar" as "jjurado";
+grant delete on "jjurado".secado to "exore_auxiliar" as "jjurado";
+grant index on "jjurado".secado to "exore_auxiliar" as "jjurado";
+grant alter on "jjurado".secado to "exore_auxiliar" as "jjurado";
+grant references on "jjurado".secado to "exore_auxiliar" as "jjurado";
+grant select on "jjurado".secado to "ibica" as "jjurado";
+grant update on "jjurado".secado to "ibica" as "jjurado";
+grant insert on "jjurado".secado to "ibica" as "jjurado";
+grant delete on "jjurado".secado to "ibica" as "jjurado";
+grant index on "jjurado".secado to "ibica" as "jjurado";
+grant alter on "jjurado".secado to "ibica" as "jjurado";
+grant references on "jjurado".secado to "ibica" as "jjurado";
+grant select on "jjurado".secado to "public" as "jjurado";
+grant update on "jjurado".secado to "public" as "jjurado";
+grant insert on "jjurado".secado to "public" as "jjurado";
+grant delete on "jjurado".secado to "public" as "jjurado";
+grant index on "jjurado".secado to "public" as "jjurado";
+grant select on "jjurado".rol to "ibica" as "jjurado";
+grant update on "jjurado".rol to "ibica" as "jjurado";
+grant insert on "jjurado".rol to "ibica" as "jjurado";
+grant delete on "jjurado".rol to "ibica" as "jjurado";
+grant index on "jjurado".rol to "ibica" as "jjurado";
+grant alter on "jjurado".rol to "ibica" as "jjurado";
+grant references on "jjurado".rol to "ibica" as "jjurado";
+grant select on "jjurado".rol to "exore_admin_sistem" as "jjurado";
+grant update on "jjurado".rol to "exore_admin_sistem" as "jjurado";
+grant insert on "jjurado".rol to "exore_admin_sistem" as "jjurado";
+grant delete on "jjurado".rol to "exore_admin_sistem" as "jjurado";
+grant index on "jjurado".rol to "exore_admin_sistem" as "jjurado";
+grant alter on "jjurado".rol to "exore_admin_sistem" as "jjurado";
+grant references on "jjurado".rol to "exore_admin_sistem" as "jjurado";
+grant select on "jjurado".rol to "public" as "jjurado";
+grant update on "jjurado".rol to "public" as "jjurado";
+grant insert on "jjurado".rol to "public" as "jjurado";
+grant delete on "jjurado".rol to "public" as "jjurado";
+grant index on "jjurado".rol to "public" as "jjurado";
+grant select on "jjurado".campo_de_recria to "atrias" as "jjurado";
+grant select on "jjurado".campo_de_recria to "caramburu" as "jjurado";
+grant update on "jjurado".campo_de_recria to "caramburu" as "jjurado";
+grant insert on "jjurado".campo_de_recria to "caramburu" as "jjurado";
+grant delete on "jjurado".campo_de_recria to "caramburu" as "jjurado";
+grant index on "jjurado".campo_de_recria to "caramburu" as "jjurado";
+grant alter on "jjurado".campo_de_recria to "caramburu" as "jjurado";
+grant references on "jjurado".campo_de_recria to "caramburu" as "jjurado";
+grant select on "jjurado".campo_de_recria to "exore_admin_coope" as "jjurado";
+grant select on "jjurado".campo_de_recria to "exore_admin_sistem" as "jjurado";
+grant update on "jjurado".campo_de_recria to "exore_admin_sistem" as "jjurado";
+grant insert on "jjurado".campo_de_recria to "exore_admin_sistem" as "jjurado";
+grant delete on "jjurado".campo_de_recria to "exore_admin_sistem" as "jjurado";
+grant index on "jjurado".campo_de_recria to "exore_admin_sistem" as "jjurado";
+grant alter on "jjurado".campo_de_recria to "exore_admin_sistem" as "jjurado";
+grant references on "jjurado".campo_de_recria to "exore_admin_sistem" as "jjurado";
+grant select on "jjurado".campo_de_recria to "samorin" as "jjurado";
+grant update on "jjurado".campo_de_recria to "samorin" as "jjurado";
+grant insert on "jjurado".campo_de_recria to "samorin" as "jjurado";
+grant delete on "jjurado".campo_de_recria to "samorin" as "jjurado";
+grant index on "jjurado".campo_de_recria to "samorin" as "jjurado";
+grant alter on "jjurado".campo_de_recria to "samorin" as "jjurado";
+grant references on "jjurado".campo_de_recria to "samorin" as "jjurado";
+grant select on "jjurado".campo_de_recria to "exore_admin_tambo" as "jjurado";
+grant update on "jjurado".campo_de_recria to "exore_admin_tambo" as "jjurado";
+grant insert on "jjurado".campo_de_recria to "exore_admin_tambo" as "jjurado";
+grant delete on "jjurado".campo_de_recria to "exore_admin_tambo" as "jjurado";
+grant index on "jjurado".campo_de_recria to "exore_admin_tambo" as "jjurado";
+grant alter on "jjurado".campo_de_recria to "exore_admin_tambo" as "jjurado";
+grant references on "jjurado".campo_de_recria to "exore_admin_tambo" as "jjurado";
+grant select on "jjurado".campo_de_recria to "exore_auxiliar" as "jjurado";
+grant update on "jjurado".campo_de_recria to "exore_auxiliar" as "jjurado";
+grant insert on "jjurado".campo_de_recria to "exore_auxiliar" as "jjurado";
+grant delete on "jjurado".campo_de_recria to "exore_auxiliar" as "jjurado";
+grant index on "jjurado".campo_de_recria to "exore_auxiliar" as "jjurado";
+grant alter on "jjurado".campo_de_recria to "exore_auxiliar" as "jjurado";
+grant references on "jjurado".campo_de_recria to "exore_auxiliar" as "jjurado";
+grant select on "jjurado".campo_de_recria to "ibica" as "jjurado";
+grant update on "jjurado".campo_de_recria to "ibica" as "jjurado";
+grant insert on "jjurado".campo_de_recria to "ibica" as "jjurado";
+grant delete on "jjurado".campo_de_recria to "ibica" as "jjurado";
+grant index on "jjurado".campo_de_recria to "ibica" as "jjurado";
+grant alter on "jjurado".campo_de_recria to "ibica" as "jjurado";
+grant references on "jjurado".campo_de_recria to "ibica" as "jjurado";
+grant select on "jjurado".campo_de_recria to "public" as "jjurado";
+grant update on "jjurado".campo_de_recria to "public" as "jjurado";
+grant insert on "jjurado".campo_de_recria to "public" as "jjurado";
+grant delete on "jjurado".campo_de_recria to "public" as "jjurado";
+grant index on "jjurado".campo_de_recria to "public" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "atrias" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "caramburu" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "caramburu" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "caramburu" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "caramburu" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "caramburu" as "jjurado";
+grant alter on "jjurado".campo_de_recria_tel to "caramburu" as "jjurado";
+grant references on "jjurado".campo_de_recria_tel to "caramburu" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "exore_admin_coope" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "exore_admin_sistem" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "exore_admin_sistem" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "exore_admin_sistem" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "exore_admin_sistem" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "exore_admin_sistem" as "jjurado";
+grant alter on "jjurado".campo_de_recria_tel to "exore_admin_sistem" as "jjurado";
+grant references on "jjurado".campo_de_recria_tel to "exore_admin_sistem" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "exore_admin_tambo" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "exore_admin_tambo" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "exore_admin_tambo" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "exore_admin_tambo" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "exore_admin_tambo" as "jjurado";
+grant alter on "jjurado".campo_de_recria_tel to "exore_admin_tambo" as "jjurado";
+grant references on "jjurado".campo_de_recria_tel to "exore_admin_tambo" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "admin_tambo" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "admin_tambo" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "admin_tambo" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "admin_tambo" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "admin_tambo" as "jjurado";
+grant alter on "jjurado".campo_de_recria_tel to "admin_tambo" as "jjurado";
+grant references on "jjurado".campo_de_recria_tel to "admin_tambo" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "exore_auxiliar" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "exore_auxiliar" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "exore_auxiliar" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "exore_auxiliar" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "exore_auxiliar" as "jjurado";
+grant alter on "jjurado".campo_de_recria_tel to "exore_auxiliar" as "jjurado";
+grant references on "jjurado".campo_de_recria_tel to "exore_auxiliar" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "samorin" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "samorin" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "samorin" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "samorin" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "samorin" as "jjurado";
+grant alter on "jjurado".campo_de_recria_tel to "samorin" as "jjurado";
+grant references on "jjurado".campo_de_recria_tel to "samorin" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "ibica" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "ibica" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "ibica" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "ibica" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "ibica" as "jjurado";
+grant alter on "jjurado".campo_de_recria_tel to "ibica" as "jjurado";
+grant references on "jjurado".campo_de_recria_tel to "ibica" as "jjurado";
+grant select on "jjurado".campo_de_recria_tel to "public" as "jjurado";
+grant update on "jjurado".campo_de_recria_tel to "public" as "jjurado";
+grant insert on "jjurado".campo_de_recria_tel to "public" as "jjurado";
+grant delete on "jjurado".campo_de_recria_tel to "public" as "jjurado";
+grant index on "jjurado".campo_de_recria_tel to "public" as "jjurado";
+grant select on "jjurado".cria to "caramburu" as "jjurado";
+grant update on "jjurado".cria to "caramburu" as "jjurado";
+grant insert on "jjurado".cria to "caramburu" as "jjurado";
+grant delete on "jjurado".cria to "caramburu" as "jjurado";
+grant index on "jjurado".cria to "caramburu" as "jjurado";
+grant alter on "jjurado".cria to "caramburu" as "jjurado";
+grant references on "jjurado".cria to "caramburu" as "jjurado";
+grant select on "jjurado".cria to "exore_admin_sistem" as "jjurado";
+grant update on "jjurado".cria to "exore_admin_sistem" as "jjurado";
+grant insert on "jjurado".cria to "exore_admin_sistem" as "jjurado";
+grant delete on "jjurado".cria to "exore_admin_sistem" as "jjurado";
+grant index on "jjurado".cria to "exore_admin_sistem" as "jjurado";
+grant alter on "jjurado".cria to "exore_admin_sistem" as "jjurado";
+grant references on "jjurado".cria to "exore_admin_sistem" as "jjurado";
+grant select on "jjurado".cria to "exore_admin_tambo" as "jjurado";
+grant update on "jjurado".cria to "exore_admin_tambo" as "jjurado";
+grant insert on "jjurado".cria to "exore_admin_tambo" as "jjurado";
+grant delete on "jjurado".cria to "exore_admin_tambo" as "jjurado";
+grant index on "jjurado".cria to "exore_admin_tambo" as "jjurado";
+grant alter on "jjurado".cria to "exore_admin_tambo" as "jjurado";
+grant references on "jjurado".cria to "exore_admin_tambo" as "jjurado";
+grant select on "jjurado".cria to "samorin" as "jjurado";
+grant update on "jjurado".cria to "samorin" as "jjurado";
+grant select on "jjurado".cria to "exore_auxiliar" as "jjurado";
+grant update on "jjurado".cria to "exore_auxiliar" as "jjurado";
+grant select on "jjurado".cria to "ibica" as "jjurado";
+grant update on "jjurado".cria to "ibica" as "jjurado";
+grant insert on "jjurado".cria to "ibica" as "jjurado";
+grant delete on "jjurado".cria to "ibica" as "jjurado";
+grant index on "jjurado".cria to "ibica" as "jjurado";
+grant alter on "jjurado".cria to "ibica" as "jjurado";
+grant references on "jjurado".cria to "ibica" as "jjurado";
+grant select on "jjurado".cria to "public" as "jjurado";
+grant update on "jjurado".cria to "public" as "jjurado";
+grant insert on "jjurado".cria to "public" as "jjurado";
+grant delete on "jjurado".cria to "public" as "jjurado";
+grant index on "jjurado".cria to "public" as "jjurado";
+grant select on "caramburu".tienen to "atrias" as "caramburu";
+grant select on "caramburu".tienen to "exore_admin_coope" as "caramburu";
+grant select on "caramburu".tienen to "exore_admin_sistem" as "caramburu";
+grant update on "caramburu".tienen to "exore_admin_sistem" as "caramburu";
+grant insert on "caramburu".tienen to "exore_admin_sistem" as "caramburu";
+grant delete on "caramburu".tienen to "exore_admin_sistem" as "caramburu";
+grant index on "caramburu".tienen to "exore_admin_sistem" as "caramburu";
+grant alter on "caramburu".tienen to "exore_admin_sistem" as "caramburu";
+grant references on "caramburu".tienen to "exore_admin_sistem" as "caramburu";
+grant select on "caramburu".tienen to "exore_admin_tambo" as "caramburu";
+grant update on "caramburu".tienen to "exore_admin_tambo" as "caramburu";
+grant insert on "caramburu".tienen to "exore_admin_tambo" as "caramburu";
+grant delete on "caramburu".tienen to "exore_admin_tambo" as "caramburu";
+grant index on "caramburu".tienen to "exore_admin_tambo" as "caramburu";
+grant alter on "caramburu".tienen to "exore_admin_tambo" as "caramburu";
+grant references on "caramburu".tienen to "exore_admin_tambo" as "caramburu";
+grant select on "caramburu".tienen to "samorin" as "caramburu";
+grant select on "caramburu".tienen to "exore_auxiliar" as "caramburu";
+grant select on "caramburu".tienen to "ibica" as "caramburu";
+grant update on "caramburu".tienen to "ibica" as "caramburu";
+grant insert on "caramburu".tienen to "ibica" as "caramburu";
+grant delete on "caramburu".tienen to "ibica" as "caramburu";
+grant index on "caramburu".tienen to "ibica" as "caramburu";
+grant alter on "caramburu".tienen to "ibica" as "caramburu";
+grant references on "caramburu".tienen to "ibica" as "caramburu";
+grant select on "caramburu".tienen to "jjurado" as "caramburu";
+grant update on "caramburu".tienen to "jjurado" as "caramburu";
+grant insert on "caramburu".tienen to "jjurado" as "caramburu";
+grant delete on "caramburu".tienen to "jjurado" as "caramburu";
+grant index on "caramburu".tienen to "jjurado" as "caramburu";
+grant alter on "caramburu".tienen to "jjurado" as "caramburu";
+grant references on "caramburu".tienen to "jjurado" as "caramburu";
+grant select on "caramburu".tienen to "public" as "caramburu";
+grant update on "caramburu".tienen to "public" as "caramburu";
+grant insert on "caramburu".tienen to "public" as "caramburu";
+grant delete on "caramburu".tienen to "public" as "caramburu";
+grant index on "caramburu".tienen to "public" as "caramburu";
+grant select on "caramburu".trabajan to "atrias" as "caramburu";
+grant select on "caramburu".trabajan to "exore_admin_coope" as "caramburu";
+grant select on "caramburu".trabajan to "exore_admin_sistem" as "caramburu";
+grant update on "caramburu".trabajan to "exore_admin_sistem" as "caramburu";
+grant insert on "caramburu".trabajan to "exore_admin_sistem" as "caramburu";
+grant delete on "caramburu".trabajan to "exore_admin_sistem" as "caramburu";
+grant index on "caramburu".trabajan to "exore_admin_sistem" as "caramburu";
+grant alter on "caramburu".trabajan to "exore_admin_sistem" as "caramburu";
+grant references on "caramburu".trabajan to "exore_admin_sistem" as "caramburu";
+grant select on "caramburu".trabajan to "public" as "caramburu";
+grant update on "caramburu".trabajan to "public" as "caramburu";
+grant insert on "caramburu".trabajan to "public" as "caramburu";
+grant delete on "caramburu".trabajan to "public" as "caramburu";
+grant index on "caramburu".trabajan to "public" as "caramburu";
+grant select on "caramburu".trabajan to "exore_admin_tambo" as "caramburu";
+grant update on "caramburu".trabajan to "exore_admin_tambo" as "caramburu";
+grant insert on "caramburu".trabajan to "exore_admin_tambo" as "caramburu";
+grant delete on "caramburu".trabajan to "exore_admin_tambo" as "caramburu";
+grant index on "caramburu".trabajan to "exore_admin_tambo" as "caramburu";
+grant alter on "caramburu".trabajan to "exore_admin_tambo" as "caramburu";
+grant references on "caramburu".trabajan to "exore_admin_tambo" as "caramburu";
+grant select on "caramburu".trabajan to "ibica" as "caramburu";
+grant update on "caramburu".trabajan to "ibica" as "caramburu";
+grant insert on "caramburu".trabajan to "ibica" as "caramburu";
+grant delete on "caramburu".trabajan to "ibica" as "caramburu";
+grant index on "caramburu".trabajan to "ibica" as "caramburu";
+grant alter on "caramburu".trabajan to "ibica" as "caramburu";
+grant references on "caramburu".trabajan to "ibica" as "caramburu";
+grant select on "caramburu".trabajan to "jjurado" as "caramburu";
+grant update on "caramburu".trabajan to "jjurado" as "caramburu";
+grant insert on "caramburu".trabajan to "jjurado" as "caramburu";
+grant delete on "caramburu".trabajan to "jjurado" as "caramburu";
+grant index on "caramburu".trabajan to "jjurado" as "caramburu";
+grant alter on "caramburu".trabajan to "jjurado" as "caramburu";
+grant references on "caramburu".trabajan to "jjurado" as "caramburu";
+grant select on "caramburu".integra to "atrias" as "caramburu";
+grant update on "caramburu".integra to "atrias" as "caramburu";
+grant insert on "caramburu".integra to "atrias" as "caramburu";
+grant delete on "caramburu".integra to "atrias" as "caramburu";
+grant index on "caramburu".integra to "atrias" as "caramburu";
+grant alter on "caramburu".integra to "atrias" as "caramburu";
+grant references on "caramburu".integra to "atrias" as "caramburu";
+grant select on "caramburu".integra to "public" as "caramburu";
+grant update on "caramburu".integra to "public" as "caramburu";
+grant insert on "caramburu".integra to "public" as "caramburu";
+grant delete on "caramburu".integra to "public" as "caramburu";
+grant index on "caramburu".integra to "public" as "caramburu";
+grant select on "caramburu".integra to "exore_admin_coope" as "caramburu";
+grant update on "caramburu".integra to "exore_admin_coope" as "caramburu";
+grant insert on "caramburu".integra to "exore_admin_coope" as "caramburu";
+grant delete on "caramburu".integra to "exore_admin_coope" as "caramburu";
+grant index on "caramburu".integra to "exore_admin_coope" as "caramburu";
+grant alter on "caramburu".integra to "exore_admin_coope" as "caramburu";
+grant references on "caramburu".integra to "exore_admin_coope" as "caramburu";
+grant select on "caramburu".integra to "exore_admin_sistem" as "caramburu";
+grant update on "caramburu".integra to "exore_admin_sistem" as "caramburu";
+grant insert on "caramburu".integra to "exore_admin_sistem" as "caramburu";
+grant delete on "caramburu".integra to "exore_admin_sistem" as "caramburu";
+grant index on "caramburu".integra to "exore_admin_sistem" as "caramburu";
+grant alter on "caramburu".integra to "exore_admin_sistem" as "caramburu";
+grant references on "caramburu".integra to "exore_admin_sistem" as "caramburu";
+grant select on "caramburu".integra to "ibica" as "caramburu";
+grant update on "caramburu".integra to "ibica" as "caramburu";
+grant insert on "caramburu".integra to "ibica" as "caramburu";
+grant delete on "caramburu".integra to "ibica" as "caramburu";
+grant index on "caramburu".integra to "ibica" as "caramburu";
+grant alter on "caramburu".integra to "ibica" as "caramburu";
+grant references on "caramburu".integra to "ibica" as "caramburu";
+grant select on "caramburu".posee to "atrias" as "caramburu";
+grant update on "caramburu".posee to "atrias" as "caramburu";
+grant insert on "caramburu".posee to "atrias" as "caramburu";
+grant delete on "caramburu".posee to "atrias" as "caramburu";
+grant index on "caramburu".posee to "atrias" as "caramburu";
+grant alter on "caramburu".posee to "atrias" as "caramburu";
+grant references on "caramburu".posee to "atrias" as "caramburu";
+grant select on "caramburu".posee to "exore_admin_coope" as "caramburu";
+grant update on "caramburu".posee to "exore_admin_coope" as "caramburu";
+grant insert on "caramburu".posee to "exore_admin_coope" as "caramburu";
+grant delete on "caramburu".posee to "exore_admin_coope" as "caramburu";
+grant index on "caramburu".posee to "exore_admin_coope" as "caramburu";
+grant alter on "caramburu".posee to "exore_admin_coope" as "caramburu";
+grant references on "caramburu".posee to "exore_admin_coope" as "caramburu";
+grant select on "caramburu".posee to "exore_admin_sistem" as "caramburu";
+grant update on "caramburu".posee to "exore_admin_sistem" as "caramburu";
+grant insert on "caramburu".posee to "exore_admin_sistem" as "caramburu";
+grant delete on "caramburu".posee to "exore_admin_sistem" as "caramburu";
+grant index on "caramburu".posee to "exore_admin_sistem" as "caramburu";
+grant alter on "caramburu".posee to "exore_admin_sistem" as "caramburu";
+grant references on "caramburu".posee to "exore_admin_sistem" as "caramburu";
+grant select on "caramburu".posee to "public" as "caramburu";
+grant update on "caramburu".posee to "public" as "caramburu";
+grant insert on "caramburu".posee to "public" as "caramburu";
+grant delete on "caramburu".posee to "public" as "caramburu";
+grant index on "caramburu".posee to "public" as "caramburu";
+grant select on "caramburu".posee to "exore_admin_tambo" as "caramburu";
+grant update on "caramburu".posee to "exore_admin_tambo" as "caramburu";
+grant insert on "caramburu".posee to "exore_admin_tambo" as "caramburu";
+grant delete on "caramburu".posee to "exore_admin_tambo" as "caramburu";
+grant index on "caramburu".posee to "exore_admin_tambo" as "caramburu";
+grant alter on "caramburu".posee to "exore_admin_tambo" as "caramburu";
+grant references on "caramburu".posee to "exore_admin_tambo" as "caramburu";
+grant select on "caramburu".posee to "ibica" as "caramburu";
+grant update on "caramburu".posee to "ibica" as "caramburu";
+grant insert on "caramburu".posee to "ibica" as "caramburu";
+grant delete on "caramburu".posee to "ibica" as "caramburu";
+grant index on "caramburu".posee to "ibica" as "caramburu";
+grant alter on "caramburu".posee to "ibica" as "caramburu";
+grant references on "caramburu".posee to "ibica" as "caramburu";
+grant select on "caramburu".posee to "jjurado" as "caramburu";
+grant update on "caramburu".posee to "jjurado" as "caramburu";
+grant insert on "caramburu".posee to "jjurado" as "caramburu";
+grant delete on "caramburu".posee to "jjurado" as "caramburu";
+grant index on "caramburu".posee to "jjurado" as "caramburu";
+grant alter on "caramburu".posee to "jjurado" as "caramburu";
+grant references on "caramburu".posee to "jjurado" as "caramburu";
+grant select on "caramburu".controla to "exore_admin_sistem" as "caramburu";
+grant update on "caramburu".controla to "exore_admin_sistem" as "caramburu";
+grant insert on "caramburu".controla to "exore_admin_sistem" as "caramburu";
+grant delete on "caramburu".controla to "exore_admin_sistem" as "caramburu";
+grant index on "caramburu".controla to "exore_admin_sistem" as "caramburu";
+grant alter on "caramburu".controla to "exore_admin_sistem" as "caramburu";
+grant references on "caramburu".controla to "exore_admin_sistem" as "caramburu";
+grant select on "caramburu".controla to "exore_admin_tambo" as "caramburu";
+grant update on "caramburu".controla to "exore_admin_tambo" as "caramburu";
+grant insert on "caramburu".controla to "exore_admin_tambo" as "caramburu";
+grant delete on "caramburu".controla to "exore_admin_tambo" as "caramburu";
+grant index on "caramburu".controla to "exore_admin_tambo" as "caramburu";
+grant alter on "caramburu".controla to "exore_admin_tambo" as "caramburu";
+grant references on "caramburu".controla to "exore_admin_tambo" as "caramburu";
+grant select on "caramburu".controla to "ibica" as "caramburu";
+grant update on "caramburu".controla to "ibica" as "caramburu";
+grant insert on "caramburu".controla to "ibica" as "caramburu";
+grant delete on "caramburu".controla to "ibica" as "caramburu";
+grant index on "caramburu".controla to "ibica" as "caramburu";
+grant alter on "caramburu".controla to "ibica" as "caramburu";
+grant references on "caramburu".controla to "ibica" as "caramburu";
+grant select on "caramburu".controla to "public" as "caramburu";
+grant update on "caramburu".controla to "public" as "caramburu";
+grant insert on "caramburu".controla to "public" as "caramburu";
+grant delete on "caramburu".controla to "public" as "caramburu";
+grant index on "caramburu".controla to "public" as "caramburu";
+grant select on "caramburu".controla to "jjurado" as "caramburu";
+grant update on "caramburu".controla to "jjurado" as "caramburu";
+grant insert on "caramburu".controla to "jjurado" as "caramburu";
+grant delete on "caramburu".controla to "jjurado" as "caramburu";
+grant index on "caramburu".controla to "jjurado" as "caramburu";
+grant alter on "caramburu".controla to "jjurado" as "caramburu";
+grant references on "caramburu".controla to "jjurado" as "caramburu";
+grant select on "samorin".sale to "jjurado" as "samorin";
+grant update on "samorin".sale to "jjurado" as "samorin";
+grant insert on "samorin".sale to "jjurado" as "samorin";
+grant delete on "samorin".sale to "jjurado" as "samorin";
+grant index on "samorin".sale to "jjurado" as "samorin";
+grant alter on "samorin".sale to "jjurado" as "samorin";
+grant references on "samorin".sale to "jjurado" as "samorin";
+grant select on "samorin".sale to "ibica" as "samorin";
+grant update on "samorin".sale to "ibica" as "samorin";
+grant insert on "samorin".sale to "ibica" as "samorin";
+grant delete on "samorin".sale to "ibica" as "samorin";
+grant index on "samorin".sale to "ibica" as "samorin";
+grant alter on "samorin".sale to "ibica" as "samorin";
+grant references on "samorin".sale to "ibica" as "samorin";
+grant select on "samorin".sale to "exore_auxiliar" as "samorin";
+grant select on "samorin".sale to "public" as "samorin";
+grant update on "samorin".sale to "public" as "samorin";
+grant insert on "samorin".sale to "public" as "samorin";
+grant delete on "samorin".sale to "public" as "samorin";
+grant index on "samorin".sale to "public" as "samorin";
+grant select on "samorin".sale to "exore_admin_tambo" as "samorin";
+grant update on "samorin".sale to "exore_admin_tambo" as "samorin";
+grant insert on "samorin".sale to "exore_admin_tambo" as "samorin";
+grant delete on "samorin".sale to "exore_admin_tambo" as "samorin";
+grant index on "samorin".sale to "exore_admin_tambo" as "samorin";
+grant alter on "samorin".sale to "exore_admin_tambo" as "samorin";
+grant references on "samorin".sale to "exore_admin_tambo" as "samorin";
+grant select on "samorin".sale to "exore_admin_sistem" as "samorin";
+grant update on "samorin".sale to "exore_admin_sistem" as "samorin";
+grant insert on "samorin".sale to "exore_admin_sistem" as "samorin";
+grant delete on "samorin".sale to "exore_admin_sistem" as "samorin";
+grant index on "samorin".sale to "exore_admin_sistem" as "samorin";
+grant alter on "samorin".sale to "exore_admin_sistem" as "samorin";
+grant references on "samorin".sale to "exore_admin_sistem" as "samorin";
+grant select on "samorin".sale to "exore_admin_coope" as "samorin";
+grant select on "samorin".sale to "caramburu" as "samorin";
+grant update on "samorin".sale to "caramburu" as "samorin";
+grant insert on "samorin".sale to "caramburu" as "samorin";
+grant delete on "samorin".sale to "caramburu" as "samorin";
+grant index on "samorin".sale to "caramburu" as "samorin";
+grant alter on "samorin".sale to "caramburu" as "samorin";
+grant references on "samorin".sale to "caramburu" as "samorin";
+grant select on "samorin".sale to "atrias" as "samorin";
+grant select on "samorin".reproduccion to "public" as "samorin";
+grant update on "samorin".reproduccion to "public" as "samorin";
+grant insert on "samorin".reproduccion to "public" as "samorin";
+grant delete on "samorin".reproduccion to "public" as "samorin";
+grant index on "samorin".reproduccion to "public" as "samorin";
+grant select on "samorin".reproduccion to "exore_admin_sistem" as "samorin";
+grant update on "samorin".reproduccion to "exore_admin_sistem" as "samorin";
+grant insert on "samorin".reproduccion to "exore_admin_sistem" as "samorin";
+grant delete on "samorin".reproduccion to "exore_admin_sistem" as "samorin";
+grant index on "samorin".reproduccion to "exore_admin_sistem" as "samorin";
+grant alter on "samorin".reproduccion to "exore_admin_sistem" as "samorin";
+grant references on "samorin".reproduccion to "exore_admin_sistem" as "samorin";
+grant select on "samorin".reproduccion to "exore_admin_tambo" as "samorin";
+grant update on "samorin".reproduccion to "exore_admin_tambo" as "samorin";
+grant insert on "samorin".reproduccion to "exore_admin_tambo" as "samorin";
+grant delete on "samorin".reproduccion to "exore_admin_tambo" as "samorin";
+grant index on "samorin".reproduccion to "exore_admin_tambo" as "samorin";
+grant alter on "samorin".reproduccion to "exore_admin_tambo" as "samorin";
+grant references on "samorin".reproduccion to "exore_admin_tambo" as "samorin";
+grant select on "samorin".esta to "atrias" as "samorin";
+grant select on "samorin".esta to "jjurado" as "samorin";
+grant update on "samorin".esta to "jjurado" as "samorin";
+grant insert on "samorin".esta to "jjurado" as "samorin";
+grant delete on "samorin".esta to "jjurado" as "samorin";
+grant index on "samorin".esta to "jjurado" as "samorin";
+grant alter on "samorin".esta to "jjurado" as "samorin";
+grant references on "samorin".esta to "jjurado" as "samorin";
+grant select on "samorin".esta to "caramburu" as "samorin";
+grant update on "samorin".esta to "caramburu" as "samorin";
+grant insert on "samorin".esta to "caramburu" as "samorin";
+grant delete on "samorin".esta to "caramburu" as "samorin";
+grant index on "samorin".esta to "caramburu" as "samorin";
+grant alter on "samorin".esta to "caramburu" as "samorin";
+grant references on "samorin".esta to "caramburu" as "samorin";
+grant select on "samorin".esta to "public" as "samorin";
+grant update on "samorin".esta to "public" as "samorin";
+grant insert on "samorin".esta to "public" as "samorin";
+grant delete on "samorin".esta to "public" as "samorin";
+grant index on "samorin".esta to "public" as "samorin";
+grant select on "samorin".esta to "exore_admin_coope" as "samorin";
+grant select on "samorin".esta to "exore_admin_sistem" as "samorin";
+grant update on "samorin".esta to "exore_admin_sistem" as "samorin";
+grant insert on "samorin".esta to "exore_admin_sistem" as "samorin";
+grant delete on "samorin".esta to "exore_admin_sistem" as "samorin";
+grant index on "samorin".esta to "exore_admin_sistem" as "samorin";
+grant alter on "samorin".esta to "exore_admin_sistem" as "samorin";
+grant references on "samorin".esta to "exore_admin_sistem" as "samorin";
+grant select on "samorin".esta to "exore_admin_tambo" as "samorin";
+grant update on "samorin".esta to "exore_admin_tambo" as "samorin";
+grant insert on "samorin".esta to "exore_admin_tambo" as "samorin";
+grant delete on "samorin".esta to "exore_admin_tambo" as "samorin";
+grant index on "samorin".esta to "exore_admin_tambo" as "samorin";
+grant alter on "samorin".esta to "exore_admin_tambo" as "samorin";
+grant references on "samorin".esta to "exore_admin_tambo" as "samorin";
+grant select on "samorin".esta to "exore_auxiliar" as "samorin";
+grant update on "samorin".esta to "exore_auxiliar" as "samorin";
+grant insert on "samorin".esta to "exore_auxiliar" as "samorin";
+grant delete on "samorin".esta to "exore_auxiliar" as "samorin";
+grant index on "samorin".esta to "exore_auxiliar" as "samorin";
+grant alter on "samorin".esta to "exore_auxiliar" as "samorin";
+grant references on "samorin".esta to "exore_auxiliar" as "samorin";
+grant select on "samorin".esta to "ibica" as "samorin";
+grant update on "samorin".esta to "ibica" as "samorin";
+grant insert on "samorin".esta to "ibica" as "samorin";
+grant delete on "samorin".esta to "ibica" as "samorin";
+grant index on "samorin".esta to "ibica" as "samorin";
+grant alter on "samorin".esta to "ibica" as "samorin";
+grant references on "samorin".esta to "ibica" as "samorin";
+grant select on "samorin".esta to "admin_sistem" as "samorin";
+grant update on "samorin".esta to "admin_sistem" as "samorin";
+grant insert on "samorin".esta to "admin_sistem" as "samorin";
+grant delete on "samorin".esta to "admin_sistem" as "samorin";
+grant index on "samorin".esta to "admin_sistem" as "samorin";
+grant alter on "samorin".esta to "admin_sistem" as "samorin";
+grant references on "samorin".esta to "admin_sistem" as "samorin";
+grant select on "samorin".pertenece to "ibica" as "samorin";
+grant update on "samorin".pertenece to "ibica" as "samorin";
+grant insert on "samorin".pertenece to "ibica" as "samorin";
+grant delete on "samorin".pertenece to "ibica" as "samorin";
+grant index on "samorin".pertenece to "ibica" as "samorin";
+grant alter on "samorin".pertenece to "ibica" as "samorin";
+grant references on "samorin".pertenece to "ibica" as "samorin";
+grant select on "samorin".pertenece to "jjurado" as "samorin";
+grant update on "samorin".pertenece to "jjurado" as "samorin";
+grant insert on "samorin".pertenece to "jjurado" as "samorin";
+grant delete on "samorin".pertenece to "jjurado" as "samorin";
+grant index on "samorin".pertenece to "jjurado" as "samorin";
+grant alter on "samorin".pertenece to "jjurado" as "samorin";
+grant references on "samorin".pertenece to "jjurado" as "samorin";
+grant select on "samorin".pertenece to "exore_auxiliar" as "samorin";
+grant select on "samorin".pertenece to "caramburu" as "samorin";
+grant update on "samorin".pertenece to "caramburu" as "samorin";
+grant insert on "samorin".pertenece to "caramburu" as "samorin";
+grant delete on "samorin".pertenece to "caramburu" as "samorin";
+grant index on "samorin".pertenece to "caramburu" as "samorin";
+grant alter on "samorin".pertenece to "caramburu" as "samorin";
+grant references on "samorin".pertenece to "caramburu" as "samorin";
+grant select on "samorin".pertenece to "exore_admin_sistem" as "samorin";
+grant update on "samorin".pertenece to "exore_admin_sistem" as "samorin";
+grant insert on "samorin".pertenece to "exore_admin_sistem" as "samorin";
+grant delete on "samorin".pertenece to "exore_admin_sistem" as "samorin";
+grant index on "samorin".pertenece to "exore_admin_sistem" as "samorin";
+grant alter on "samorin".pertenece to "exore_admin_sistem" as "samorin";
+grant references on "samorin".pertenece to "exore_admin_sistem" as "samorin";
+grant select on "samorin".pertenece to "exore_admin_tambo" as "samorin";
+grant update on "samorin".pertenece to "exore_admin_tambo" as "samorin";
+grant insert on "samorin".pertenece to "exore_admin_tambo" as "samorin";
+grant delete on "samorin".pertenece to "exore_admin_tambo" as "samorin";
+grant index on "samorin".pertenece to "exore_admin_tambo" as "samorin";
+grant alter on "samorin".pertenece to "exore_admin_tambo" as "samorin";
+grant references on "samorin".pertenece to "exore_admin_tambo" as "samorin";
+grant select on "samorin".pertenece to "public" as "samorin";
+grant update on "samorin".pertenece to "public" as "samorin";
+grant insert on "samorin".pertenece to "public" as "samorin";
+grant delete on "samorin".pertenece to "public" as "samorin";
+grant index on "samorin".pertenece to "public" as "samorin";
+grant select on "samorin".come to "exore_auxiliar" as "samorin";
+grant update on "samorin".come to "exore_auxiliar" as "samorin";
+grant insert on "samorin".come to "exore_auxiliar" as "samorin";
+grant delete on "samorin".come to "exore_auxiliar" as "samorin";
+grant index on "samorin".come to "exore_auxiliar" as "samorin";
+grant alter on "samorin".come to "exore_auxiliar" as "samorin";
+grant references on "samorin".come to "exore_auxiliar" as "samorin";
+grant select on "samorin".come to "exore_admin_tambo" as "samorin";
+grant update on "samorin".come to "exore_admin_tambo" as "samorin";
+grant insert on "samorin".come to "exore_admin_tambo" as "samorin";
+grant delete on "samorin".come to "exore_admin_tambo" as "samorin";
+grant index on "samorin".come to "exore_admin_tambo" as "samorin";
+grant alter on "samorin".come to "exore_admin_tambo" as "samorin";
+grant references on "samorin".come to "exore_admin_tambo" as "samorin";
+grant select on "samorin".come to "ibica" as "samorin";
+grant update on "samorin".come to "ibica" as "samorin";
+grant insert on "samorin".come to "ibica" as "samorin";
+grant delete on "samorin".come to "ibica" as "samorin";
+grant index on "samorin".come to "ibica" as "samorin";
+grant alter on "samorin".come to "ibica" as "samorin";
+grant references on "samorin".come to "ibica" as "samorin";
+grant select on "samorin".come to "exore_admin_sistem" as "samorin";
+grant update on "samorin".come to "exore_admin_sistem" as "samorin";
+grant insert on "samorin".come to "exore_admin_sistem" as "samorin";
+grant delete on "samorin".come to "exore_admin_sistem" as "samorin";
+grant index on "samorin".come to "exore_admin_sistem" as "samorin";
+grant alter on "samorin".come to "exore_admin_sistem" as "samorin";
+grant references on "samorin".come to "exore_admin_sistem" as "samorin";
+grant select on "samorin".come to "public" as "samorin";
+grant update on "samorin".come to "public" as "samorin";
+grant insert on "samorin".come to "public" as "samorin";
+grant delete on "samorin".come to "public" as "samorin";
+grant index on "samorin".come to "public" as "samorin";
+grant select on "samorin".come to "caramburu" as "samorin";
+grant select on "samorin".come to "admin_sistem" as "samorin";
+grant update on "samorin".come to "admin_sistem" as "samorin";
+grant insert on "samorin".come to "admin_sistem" as "samorin";
+grant delete on "samorin".come to "admin_sistem" as "samorin";
+grant index on "samorin".come to "admin_sistem" as "samorin";
+grant alter on "samorin".come to "admin_sistem" as "samorin";
+grant references on "samorin".come to "admin_sistem" as "samorin";
+grant select on "samorin".come to "jjurado" as "samorin";
+grant select on "samorin".usa to "ibica" as "samorin";
+grant update on "samorin".usa to "ibica" as "samorin";
+grant insert on "samorin".usa to "ibica" as "samorin";
+grant delete on "samorin".usa to "ibica" as "samorin";
+grant index on "samorin".usa to "ibica" as "samorin";
+grant alter on "samorin".usa to "ibica" as "samorin";
+grant references on "samorin".usa to "ibica" as "samorin";
+grant select on "samorin".usa to "admin_sistem" as "samorin";
+grant update on "samorin".usa to "admin_sistem" as "samorin";
+grant insert on "samorin".usa to "admin_sistem" as "samorin";
+grant delete on "samorin".usa to "admin_sistem" as "samorin";
+grant index on "samorin".usa to "admin_sistem" as "samorin";
+grant alter on "samorin".usa to "admin_sistem" as "samorin";
+grant references on "samorin".usa to "admin_sistem" as "samorin";
+grant select on "samorin".usa to "caramburu" as "samorin";
+grant select on "samorin".usa to "exore_admin_sistem" as "samorin";
+grant update on "samorin".usa to "exore_admin_sistem" as "samorin";
+grant insert on "samorin".usa to "exore_admin_sistem" as "samorin";
+grant delete on "samorin".usa to "exore_admin_sistem" as "samorin";
+grant index on "samorin".usa to "exore_admin_sistem" as "samorin";
+grant alter on "samorin".usa to "exore_admin_sistem" as "samorin";
+grant references on "samorin".usa to "exore_admin_sistem" as "samorin";
+grant select on "samorin".usa to "jjurado" as "samorin";
+grant select on "samorin".usa to "exore_admin_tambo" as "samorin";
+grant update on "samorin".usa to "exore_admin_tambo" as "samorin";
+grant insert on "samorin".usa to "exore_admin_tambo" as "samorin";
+grant delete on "samorin".usa to "exore_admin_tambo" as "samorin";
+grant index on "samorin".usa to "exore_admin_tambo" as "samorin";
+grant alter on "samorin".usa to "exore_admin_tambo" as "samorin";
+grant references on "samorin".usa to "exore_admin_tambo" as "samorin";
+grant select on "samorin".usa to "public" as "samorin";
+grant update on "samorin".usa to "public" as "samorin";
+grant insert on "samorin".usa to "public" as "samorin";
+grant delete on "samorin".usa to "public" as "samorin";
+grant index on "samorin".usa to "public" as "samorin";
+grant select on "samorin".usa to "exore_auxiliar" as "samorin";
+grant update on "samorin".usa to "exore_auxiliar" as "samorin";
+grant insert on "samorin".usa to "exore_auxiliar" as "samorin";
+grant delete on "samorin".usa to "exore_auxiliar" as "samorin";
+grant index on "samorin".usa to "exore_auxiliar" as "samorin";
+grant alter on "samorin".usa to "exore_auxiliar" as "samorin";
+grant references on "samorin".usa to "exore_auxiliar" as "samorin";
+grant select on "samorin".hace to "atrias" as "samorin";
+grant select on "samorin".hace to "caramburu" as "samorin";
+grant select on "samorin".hace to "public" as "samorin";
+grant update on "samorin".hace to "public" as "samorin";
+grant insert on "samorin".hace to "public" as "samorin";
+grant delete on "samorin".hace to "public" as "samorin";
+grant index on "samorin".hace to "public" as "samorin";
+grant select on "samorin".hace to "exore_admin_coope" as "samorin";
+grant select on "samorin".hace to "jjurado" as "samorin";
+grant select on "samorin".hace to "exore_admin_sistem" as "samorin";
+grant update on "samorin".hace to "exore_admin_sistem" as "samorin";
+grant insert on "samorin".hace to "exore_admin_sistem" as "samorin";
+grant delete on "samorin".hace to "exore_admin_sistem" as "samorin";
+grant index on "samorin".hace to "exore_admin_sistem" as "samorin";
+grant alter on "samorin".hace to "exore_admin_sistem" as "samorin";
+grant references on "samorin".hace to "exore_admin_sistem" as "samorin";
+grant select on "samorin".hace to "exore_admin_tambo" as "samorin";
+grant update on "samorin".hace to "exore_admin_tambo" as "samorin";
+grant insert on "samorin".hace to "exore_admin_tambo" as "samorin";
+grant delete on "samorin".hace to "exore_admin_tambo" as "samorin";
+grant index on "samorin".hace to "exore_admin_tambo" as "samorin";
+grant alter on "samorin".hace to "exore_admin_tambo" as "samorin";
+grant references on "samorin".hace to "exore_admin_tambo" as "samorin";
+grant select on "samorin".hace to "exore_auxiliar" as "samorin";
+grant update on "samorin".hace to "exore_auxiliar" as "samorin";
+grant insert on "samorin".hace to "exore_auxiliar" as "samorin";
+grant delete on "samorin".hace to "exore_auxiliar" as "samorin";
+grant index on "samorin".hace to "exore_auxiliar" as "samorin";
+grant alter on "samorin".hace to "exore_auxiliar" as "samorin";
+grant references on "samorin".hace to "exore_auxiliar" as "samorin";
+grant select on "samorin".hace to "ibica" as "samorin";
+grant update on "samorin".hace to "ibica" as "samorin";
+grant insert on "samorin".hace to "ibica" as "samorin";
+grant delete on "samorin".hace to "ibica" as "samorin";
+grant index on "samorin".hace to "ibica" as "samorin";
+grant alter on "samorin".hace to "ibica" as "samorin";
+grant references on "samorin".hace to "ibica" as "samorin";
+grant select on "ibica".medicamento to "exore_admin_sistem" as "ibica";
+grant update on "ibica".medicamento to "exore_admin_sistem" as "ibica";
+grant insert on "ibica".medicamento to "exore_admin_sistem" as "ibica";
+grant delete on "ibica".medicamento to "exore_admin_sistem" as "ibica";
+grant index on "ibica".medicamento to "exore_admin_sistem" as "ibica";
+grant alter on "ibica".medicamento to "exore_admin_sistem" as "ibica";
+grant references on "ibica".medicamento to "exore_admin_sistem" as "ibica";
+grant select on "ibica".medicamento to "exore_admin_tambo" as "ibica";
+grant update on "ibica".medicamento to "exore_admin_tambo" as "ibica";
+grant delete on "ibica".medicamento to "exore_admin_tambo" as "ibica";
+grant select on "ibica".medicamento to "exore_auxiliar" as "ibica";
+grant update on "ibica".medicamento to "exore_auxiliar" as "ibica";
+grant insert on "ibica".medicamento to "exore_auxiliar" as "ibica";
+grant delete on "ibica".medicamento to "exore_auxiliar" as "ibica";
+grant index on "ibica".medicamento to "exore_auxiliar" as "ibica";
+grant alter on "ibica".medicamento to "exore_auxiliar" as "ibica";
+grant references on "ibica".medicamento to "exore_auxiliar" as "ibica";
+grant select on "ibica".medicamento to "jjurado" as "ibica";
+grant update on "ibica".medicamento to "jjurado" as "ibica";
+grant delete on "ibica".medicamento to "jjurado" as "ibica";
+grant select on "ibica".medicamento to "public" as "ibica";
+grant update on "ibica".medicamento to "public" as "ibica";
+grant insert on "ibica".medicamento to "public" as "ibica";
+grant delete on "ibica".medicamento to "public" as "ibica";
+grant index on "ibica".medicamento to "public" as "ibica";
+grant select on "ibica".medicamento to "samorin" as "ibica";
+grant update on "ibica".medicamento to "samorin" as "ibica";
+grant insert on "ibica".medicamento to "samorin" as "ibica";
+grant delete on "ibica".medicamento to "samorin" as "ibica";
+grant index on "ibica".medicamento to "samorin" as "ibica";
+grant alter on "ibica".medicamento to "samorin" as "ibica";
+grant references on "ibica".medicamento to "samorin" as "ibica";
+grant select on "ibica".medicamento to "caramburu" as "ibica";
+grant update on "ibica".medicamento to "caramburu" as "ibica";
+grant delete on "ibica".medicamento to "caramburu" as "ibica";
+grant select on "ibica".medicamento to "atrias" as "ibica";
+grant select on "ibica".medicamento to "exore_admin_coope" as "ibica";
+grant select on "jjurado".leche to "exore_admin_sistem" as "jjurado";
+grant update on "jjurado".leche to "exore_admin_sistem" as "jjurado";
+grant insert on "jjurado".leche to "exore_admin_sistem" as "jjurado";
+grant delete on "jjurado".leche to "exore_admin_sistem" as "jjurado";
+grant index on "jjurado".leche to "exore_admin_sistem" as "jjurado";
+grant alter on "jjurado".leche to "exore_admin_sistem" as "jjurado";
+grant references on "jjurado".leche to "exore_admin_sistem" as "jjurado";
+grant select on "jjurado".leche to "caramburu" as "jjurado";
+grant select on "jjurado".leche to "admin_tambo" as "jjurado";
+grant select on "jjurado".leche to "samorin" as "jjurado";
+grant update on "jjurado".leche to "samorin" as "jjurado";
+grant insert on "jjurado".leche to "samorin" as "jjurado";
+grant delete on "jjurado".leche to "samorin" as "jjurado";
+grant index on "jjurado".leche to "samorin" as "jjurado";
+grant alter on "jjurado".leche to "samorin" as "jjurado";
+grant references on "jjurado".leche to "samorin" as "jjurado";
+grant select on "jjurado".leche to "public" as "jjurado";
+grant update on "jjurado".leche to "public" as "jjurado";
+grant insert on "jjurado".leche to "public" as "jjurado";
+grant delete on "jjurado".leche to "public" as "jjurado";
+grant index on "jjurado".leche to "public" as "jjurado";
+grant select on "jjurado".leche to "ibica" as "jjurado";
+grant update on "jjurado".leche to "ibica" as "jjurado";
+grant insert on "jjurado".leche to "ibica" as "jjurado";
+grant delete on "jjurado".leche to "ibica" as "jjurado";
+grant index on "jjurado".leche to "ibica" as "jjurado";
+grant alter on "jjurado".leche to "ibica" as "jjurado";
+grant references on "jjurado".leche to "ibica" as "jjurado";
+grant select on "jjurado".leche to "exore_auxiliar" as "jjurado";
+grant update on "jjurado".leche to "exore_auxiliar" as "jjurado";
+grant insert on "jjurado".leche to "exore_auxiliar" as "jjurado";
+grant delete on "jjurado".leche to "exore_auxiliar" as "jjurado";
+grant index on "jjurado".leche to "exore_auxiliar" as "jjurado";
+grant alter on "jjurado".leche to "exore_auxiliar" as "jjurado";
+grant references on "jjurado".leche to "exore_auxiliar" as "jjurado";
+grant select on "jjurado".leche to "exore_admin_tambo" as "jjurado";
+grant select on "caramburu".va to "exore_admin_sistem" as "caramburu";
+grant update on "caramburu".va to "exore_admin_sistem" as "caramburu";
+grant insert on "caramburu".va to "exore_admin_sistem" as "caramburu";
+grant delete on "caramburu".va to "exore_admin_sistem" as "caramburu";
+grant index on "caramburu".va to "exore_admin_sistem" as "caramburu";
+grant alter on "caramburu".va to "exore_admin_sistem" as "caramburu";
+grant references on "caramburu".va to "exore_admin_sistem" as "caramburu";
+grant select on "caramburu".va to "samorin" as "caramburu";
+grant update on "caramburu".va to "samorin" as "caramburu";
+grant insert on "caramburu".va to "samorin" as "caramburu";
+grant delete on "caramburu".va to "samorin" as "caramburu";
+grant index on "caramburu".va to "samorin" as "caramburu";
+grant alter on "caramburu".va to "samorin" as "caramburu";
+grant references on "caramburu".va to "samorin" as "caramburu";
+grant select on "caramburu".va to "exore_admin_tambo" as "caramburu";
+grant update on "caramburu".va to "exore_admin_tambo" as "caramburu";
+grant insert on "caramburu".va to "exore_admin_tambo" as "caramburu";
+grant delete on "caramburu".va to "exore_admin_tambo" as "caramburu";
+grant index on "caramburu".va to "exore_admin_tambo" as "caramburu";
+grant alter on "caramburu".va to "exore_admin_tambo" as "caramburu";
+grant references on "caramburu".va to "exore_admin_tambo" as "caramburu";
+grant select on "caramburu".va to "public" as "caramburu";
+grant update on "caramburu".va to "public" as "caramburu";
+grant insert on "caramburu".va to "public" as "caramburu";
+grant delete on "caramburu".va to "public" as "caramburu";
+grant index on "caramburu".va to "public" as "caramburu";
+grant select on "caramburu".va to "exore_auxiliar" as "caramburu";
+grant update on "caramburu".va to "exore_auxiliar" as "caramburu";
+grant insert on "caramburu".va to "exore_auxiliar" as "caramburu";
+grant delete on "caramburu".va to "exore_auxiliar" as "caramburu";
+grant index on "caramburu".va to "exore_auxiliar" as "caramburu";
+grant alter on "caramburu".va to "exore_auxiliar" as "caramburu";
+grant references on "caramburu".va to "exore_auxiliar" as "caramburu";
+grant select on "caramburu".va to "ibica" as "caramburu";
+grant update on "caramburu".va to "ibica" as "caramburu";
+grant insert on "caramburu".va to "ibica" as "caramburu";
+grant delete on "caramburu".va to "ibica" as "caramburu";
+grant index on "caramburu".va to "ibica" as "caramburu";
+grant alter on "caramburu".va to "ibica" as "caramburu";
+grant references on "caramburu".va to "ibica" as "caramburu";
+grant select on "caramburu".va to "jjurado" as "caramburu";
+grant update on "caramburu".va to "jjurado" as "caramburu";
+grant insert on "caramburu".va to "jjurado" as "caramburu";
+grant delete on "caramburu".va to "jjurado" as "caramburu";
+grant index on "caramburu".va to "jjurado" as "caramburu";
+grant alter on "caramburu".va to "jjurado" as "caramburu";
+grant references on "caramburu".va to "jjurado" as "caramburu";
+grant select on "ibica".controllechero to "atrias" as "ibica";
+grant select on "ibica".controllechero to "public" as "ibica";
+grant update on "ibica".controllechero to "public" as "ibica";
+grant insert on "ibica".controllechero to "public" as "ibica";
+grant delete on "ibica".controllechero to "public" as "ibica";
+grant index on "ibica".controllechero to "public" as "ibica";
+grant select on "ibica".controllechero to "jjurado" as "ibica";
+grant update on "ibica".controllechero to "jjurado" as "ibica";
+grant delete on "ibica".controllechero to "jjurado" as "ibica";
+grant select on "ibica".controllechero to "exore_auxiliar" as "ibica";
+grant update on "ibica".controllechero to "exore_auxiliar" as "ibica";
+grant insert on "ibica".controllechero to "exore_auxiliar" as "ibica";
+grant select on "ibica".controllechero to "exore_admin_tambo" as "ibica";
+grant update on "ibica".controllechero to "exore_admin_tambo" as "ibica";
+grant delete on "ibica".controllechero to "exore_admin_tambo" as "ibica";
+grant select on "ibica".controllechero to "exore_admin_sistem" as "ibica";
+grant update on "ibica".controllechero to "exore_admin_sistem" as "ibica";
+grant insert on "ibica".controllechero to "exore_admin_sistem" as "ibica";
+grant delete on "ibica".controllechero to "exore_admin_sistem" as "ibica";
+grant index on "ibica".controllechero to "exore_admin_sistem" as "ibica";
+grant alter on "ibica".controllechero to "exore_admin_sistem" as "ibica";
+grant references on "ibica".controllechero to "exore_admin_sistem" as "ibica";
+grant select on "ibica".controllechero to "exore_admin_coope" as "ibica";
+grant select on "ibica".controllechero to "caramburu" as "ibica";
+grant update on "ibica".controllechero to "caramburu" as "ibica";
+grant delete on "ibica".controllechero to "caramburu" as "ibica";
+grant select on "ibica".controllechero to "samorin" as "ibica";
+grant update on "ibica".controllechero to "samorin" as "ibica";
+grant insert on "ibica".controllechero to "samorin" as "ibica";
+
+revoke usage on language SPL from public ;
+
+grant usage on language SPL to public ;
+
+alter table "atrias".usuarios add constraint (foreign key (tambo_id) 
+    references "atrias".tambo  on delete cascade constraint "ibica"
+    .fk_usuarios_tambo_id);
+alter table "samorin".esta add constraint (foreign key (vaca_id) 
+    references "ibica".vaca  constraint "samorin".fk_esta_vaca_id);
+    
+alter table "atrias".tambo_tel add constraint (foreign key (tambo_id) 
+    references "atrias".tambo  constraint "atrias".fktambo_tel);
+    
+alter table "atrias".usuarios_usu_tel add constraint (foreign 
+    key (usu_login) references "atrias".usuarios  constraint "atrias"
+    .fkusu_usuario_tel);
+alter table "atrias".cooperativa_cooptel add constraint (foreign 
+    key (coop_id) references "atrias".cooperativa  constraint 
+    "atrias".fkcooperativa_cooptel);
+alter table "ibica".vaca add constraint (foreign key (vaca_id) 
+    references "atrias".animal  constraint "ibica".fk_vaca_id);
+    
+alter table "jjurado".campo_de_recria_tel add constraint (foreign 
+    key (camprec_id) references "jjurado".campo_de_recria  constraint 
+    "jjurado".fk_campo_de_recria_tel_camprec_id);
+alter table "atrias".animal add constraint (foreign key (tambo_id) 
+    references "atrias".tambo  constraint "atrias".fk_tambo_id);
+    
+alter table "jjurado".cria add constraint (foreign key (id_animal) 
+    references "atrias".animal  constraint "jjurado".fk_cria_id_animal);
+    
+alter table "caramburu".tienen add constraint (foreign key (vaca_id) 
+    references "ibica".vaca  constraint "caramburu".fk_tienen_vaca_id);
+    
+alter table "caramburu".tienen add constraint (foreign key (toro_id) 
+    references "ibica".toro  constraint "caramburu".fk_tienen_toro_id);
+    
+alter table "caramburu".trabajan add constraint (foreign key 
+    (usu_login) references "atrias".usuarios  constraint "caramburu"
+    .fk_trabajan_usu_login);
+alter table "caramburu".trabajan add constraint (foreign key 
+    (tambo_id) references "atrias".tambo  constraint "caramburu"
+    .fk_trabajan_tambo_id);
+alter table "caramburu".integra add constraint (foreign key (tambo_id) 
+    references "atrias".tambo  constraint "caramburu".fk_integra_tambo_id);
+    
+alter table "caramburu".integra add constraint (foreign key (coop_id) 
+    references "atrias".cooperativa  constraint "caramburu".fk_integra_coop_id);
+    
+alter table "caramburu".posee add constraint (foreign key (usu_login) 
+    references "atrias".usuarios  constraint "caramburu".fk_posee_usu_login);
+    
+alter table "caramburu".posee add constraint (foreign key (coop_id) 
+    references "atrias".cooperativa  constraint "caramburu".fk_posee_coop_id);
+    
+alter table "caramburu".controla add constraint (foreign key 
+    (parametro_id) references "ibica".parametrotambo  constraint 
+    "caramburu".fk_controla_parametro_id);
+alter table "caramburu".controla add constraint (foreign key 
+    (tambo_id) references "atrias".tambo  constraint "caramburu"
+    .fk_controla_tambo_id);
+alter table "caramburu".va add constraint (foreign key (camprec_id) 
+    references "jjurado".campo_de_recria  constraint "caramburu"
+    .fk_va_camprec_id);
+alter table "caramburu".va add constraint (foreign key (id_animal) 
+    references "atrias".animal  constraint "caramburu".fk_va_id_animal);
+    
+alter table "samorin".sale add constraint (foreign key (camprec_id) 
+    references "jjurado".campo_de_recria  constraint "samorin".fk_sale_camprec_id);
+    
+alter table "samorin".sale add constraint (foreign key (id_animal) 
+    references "atrias".animal  constraint "samorin".fk_sale_id_animal);
+    
+alter table "samorin".reproduccion add constraint (foreign key 
+    (vaca_id) references "ibica".vaca  constraint "samorin".fk_reproduccion_vaca_id);
+    
+alter table "samorin".reproduccion add constraint (foreign key 
+    (toro_id) references "ibica".toro  constraint "samorin".fk_reproduccion_toro_id);
+    
+alter table "atrias".usuarios add constraint (foreign key (rol_id) 
+    references "jjurado".rol  constraint "atrias".fk_usuarios_rol_id);
+    
+alter table "samorin".pertenece add constraint (foreign key (vaca_id) 
+    references "ibica".vaca  constraint "samorin".fk_pertenece_vaca_id);
+    
+alter table "samorin".pertenece add constraint (foreign key (lot_id) 
+    references "ibica".lote  constraint "samorin".fk_pertenece_lot_id);
+    
+alter table "samorin".come add constraint (foreign key (animal_id) 
+    references "atrias".animal  constraint "samorin".fk_come_animal_id);
+    
+alter table "samorin".come add constraint (foreign key (ali_idtipo) 
+    references "jjurado".alimentos  constraint "samorin".fk_come_ali_idtipo);
+    
+alter table "samorin".usa add constraint (foreign key (id_animal) 
+    references "atrias".animal  constraint "samorin".fk_usa_id_animal);
+    
+alter table "samorin".hace add constraint (foreign key (vaca_id) 
+    references "ibica".vaca  constraint "samorin".fk_hace_vaca_id);
+    
+alter table "samorin".usa add constraint (foreign key (med_nombre) 
+    references "ibica".medicamento  constraint "samorin".fk_usa_med_nombre);
+
+
+update statistics high for table usuarios (
+     rol_id, tambo_id) 
+     resolution   1.00000 ;
+
+
+dbexport completed
