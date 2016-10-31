@@ -1,0 +1,51 @@
+#!bin/bash
+clear
+
+read -p "Ingrese el usuario que desea bloquear: " usubloq
+
+while [ "$usubloq" == "" ]
+do
+
+echo "Se debe ingresar el login de un usuario para continuar" 
+read -p "Ingrese un login para continuar: " usubloq
+
+busquedausubloq=$(cut -d ":" -f1 /etc/passwd | grep -w "$usubloq")
+
+done
+
+busquedausubloq=$(cut -d ":" -f1 /etc/passwd | grep -w "$usubloq")
+
+until [ "$busquedausubloq" == "$usubloq" ]
+do
+
+echo "El usuario que ingreso no existe"
+read -p "Ingrese un login existente para continuar: " usubloq
+
+busquedausubloq=$(cut -d ":" -f1 /etc/passwd | grep -w "$usubloq")
+
+done
+
+if [ "$busquedausubloq" == "$usubloq" ]
+then
+read -p "Esta por bloquear un usuario. ¿DESEA CONTINUAR? S/N: " continuarbloq
+
+if [ "$continuarbloq" == "S" ] || [ "$continuarbloq" == "s" ]
+then
+
+usermod -L $usubloq
+
+echo "Se ha bloqueado el usuario"
+
+read -p "Presone ENTER para continuar" volver4567
+
+else 
+
+read -p "Presione ENTER para volver" volver55566
+
+fi
+
+else 
+
+read -p "Presione ENTER para volver al menu" volver999
+
+fi

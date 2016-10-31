@@ -1,0 +1,622 @@
+
+clear
+
+
+
+while [ "$opcionIngreso"!=2 ]
+
+do
+
+clear
+
+	echo " ________________________________________ "
+
+	echo "|                                        |"
+
+	echo "|              ALTA MANUAL               |"
+
+	echo "|________________________________________|"	
+
+	echo "|                                        |"
+
+	echo "|    1- Comenzar a ingresar usuario      |" 
+
+	echo "|    2- Volver                           |"
+
+	echo "|________________________________________|"
+
+	echo
+
+	read -p " Ingrese una opcion:" opcionIngreso
+
+
+
+
+
+case $opcionIngreso in 
+
+
+
+1) clear
+
+
+
+#Login
+
+	read -p "Ingrese un login: " login
+
+
+
+while [ "$login" == "" ]
+
+do
+
+echo
+
+        echo "No se puede continuar sin ingresar un login"
+
+        read -p "Vuelva a ingresar un login: " login
+
+done
+
+
+
+busquedaLogin=$(cut -d ":" -f1 /etc/passwd | grep -wi "$login")
+
+
+
+while [ "$busquedaLogin" != "" ]
+
+do
+
+echo
+
+        echo "El login ingresado ya existe y pertenece a:"
+
+	echo
+
+	finger = "$login"
+
+	echo 
+
+	read -p "Vuelva a ingresar un login: " login
+
+
+
+	busquedaLogin=$(cut -d ":" -f1 /etc/passwd | grep -w "$login")
+
+done
+
+ 
+
+echo
+
+
+
+#Home
+
+
+
+	read -p "Ingrese un home: /home/" home
+
+
+
+while [ "$home" == "" ]
+
+do
+
+echo
+
+	echo "No se puede continuar sin haber ingresado un home"
+
+	read -p "Vuelva a ingresarle un home al ususario: /home/" home
+
+done
+
+
+
+	 busquedaHome=$(cut -d ":" -f6 /etc/passwd | grep -w "/home/$home")
+
+
+
+if  [ "$busquedaHome" == "/home/$home" ] 
+
+then
+
+echo
+
+	echo "El home ingresado ya tiene un usuario propietario."
+
+	read -p "¿Desea continuar y asignarle otros usuarios al mismo home? S/N " confirma
+
+
+
+if [ "$confirma" == "S" ] || [ "$confirma" == "s" ] 
+
+then
+
+
+
+echo
+
+
+
+#Comentario
+
+
+
+	read -p "Ingrese un comentario para el usuario (opcional): " comentario
+
+echo
+
+
+
+#GrupoPrimario
+
+	read -p "Ingrese un grupo para el usuario: " grupo
+
+
+
+	busquedaGrupo=$(cut -d ":" -f3 /etc/group | grep -w "$grupo")
+
+
+
+if [ "$grupo" == "" ]
+
+then
+
+	echo
+
+	echo "No a ingresado ningun grupo y este se a asignado por defecto"
+
+	
+
+fi
+
+
+
+until [ "$busquedaGrupo" == "$grupo" ]
+
+
+
+do
+
+echo
+
+	echo "Debe ingresar un grupo existente." 
+
+	read -p "Vuelva a ingresar un grupo para el usuario: " grupo
+
+
+
+	busquedaGrupo=$(cut -d ":" -f3 /etc/group | grep -w "$grupo")
+
+done 
+
+
+
+echo
+
+
+
+#GrupoSecundario
+
+	read -p "Ingrese un grupo secundario (opcional): " grupo2
+
+
+
+	busquedaGrupoSecundario=$(cut -d ":" -f3 /etc/group | grep -w "$grupo2")
+
+
+
+
+
+until [ "$grupo2" == "$busquedaGrupoSecundario" ]
+
+do
+
+echo
+
+        echo "El grupo ingresado no existe."
+
+        read -p "Vuelva a ingresar un grupo: " grupo2
+
+
+
+        busquedaGrupoSecundario=$(cut -d ":" -f3 /etc/group | grep -w "$grupo2")
+
+done
+
+	
+
+
+
+echo
+
+
+
+#Shell
+
+	read -p "Desea ingresar una shell manualmente? S/N: " confirmashell
+
+
+
+if [ "$confirmashell" == "n" ]
+
+then
+
+echo
+
+
+
+echo "Se ha ingresado por defecto la  shell"
+
+
+
+elif [ "$confirmashell" == "s" ] 
+
+then
+
+
+
+echo "Seleccione la shell"
+
+
+
+echo "bash"
+
+echo "sh"
+
+echo "ksh"
+
+echo "tcsh"
+
+echo "csh"
+
+
+
+read -p "Escriba el nombre de la shell que desea utilizar: " shell
+
+
+
+fi
+
+# FALTA UTILIZAR EL BIN PARA CONTROLAR QUE NO SE INGRESE CUALQUIER SHELL
+
+
+
+echo
+
+
+
+if [ "$grupo" == "" ] 
+
+then
+
+	useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -G "$grupo2" -s /bin/"$shell"
+
+
+
+elif [ "$shell" == "" ]
+
+then
+
+	useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -g "$grupo" -G "$grupo2"
+
+
+
+elif [ "$confirma" == "S" ] || [ "$confirma" == "s" ]
+
+then 
+
+	useradd "$login" -d /home/"$home" -c "$comentario" -g "$grupo" -G "$grupo2" -s /bin/"$shell" 
+
+
+
+elif [ "$grupo" == "" ] && [ "$shell" == "" ]
+
+then
+
+	useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -G "$grupo2" 
+
+
+
+elif [ "$grupo" == "" ] && [ "$confirma" == "S"] [ "$confirma" == "s" ]
+
+then
+
+	useradd "$login" -d /home/"$home" -c "$comentario" -G "$grupo2" -s /bin/"$shell"
+
+
+
+elif [ "$shell" == ""] && [ "$confirma" == "S" ] || [ "$confirma" == "s" ]
+
+then
+
+	useradd "$login" -d /home/"$home" -c "$comentario" -g "$grupo" -G "$grupo2"
+
+
+
+elif [ "$grupo" == "" ] && [ "$shell" == "" ] && [ "$confirma" == "S" ] || [ "$confirma" == "s" ]
+
+then
+
+	useradd "$login" -d /home/"$home" -c "$comentario" -G "$grupo2"
+
+
+
+else
+
+	useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -g "$grupo" -G "$grupo2" -s /bin/"$shell"
+
+fi
+
+
+
+echo
+
+
+
+passwd "$login"
+
+echo
+
+	read -p "Presione ENTER para volver al menu" volver
+
+
+
+
+
+
+
+elif [ "$confrima" == "N" ] || [ "$confirma" == "n" ] 
+
+then
+
+	read -p "A cancelado el ingreso de usuario. Presione ENTER para volver al menu anterior." volver2456787
+
+fi #cierra ultimo elif (confirma)
+
+
+
+else 
+
+echo
+
+
+
+# EMPIEZA EL ELSE
+
+
+
+	#Comentario
+
+
+
+        read -p "Ingrese un comentario para el usuario (opcional): " comentario
+
+echo
+
+
+
+#GrupoPrimario
+
+        read -p "Ingrese un grupo para el usuario: " grupo
+
+
+
+        busquedaGrupo=$(cut -d ":" -f3 /etc/group | grep -w "$grupo")
+
+
+
+if [ "$grupo" == "" ]
+
+then
+
+        echo
+
+        echo "No a ingresado ningun grupo y este se a asignado por defecto"
+
+
+
+fi
+
+
+
+until [ "$busquedaGrupo" == "$grupo" ]
+
+
+
+do
+
+echo
+
+        echo "Debe ingresar un grupo existente."
+
+        read -p "Vuelva a ingresar un grupo para el usuario: " grupo
+
+
+
+        busquedaGrupo=$(cut -d ":" -f3 /etc/group | grep -w "$grupo")
+
+done
+
+
+
+echo
+
+
+
+#GrupoSecundario
+
+        read -p "Ingrese un grupo secundario (opcional): " grupo2
+
+
+
+        busquedaGrupoSecundario=$(cut -d ":" -f3 /etc/group | grep -w "$grupo2")
+
+
+
+
+
+until [ "$grupo2" == "$busquedaGrupoSecundario" ]
+
+do
+
+echo
+
+        echo "El grupo ingresado no existe."
+
+        read -p "Vuelva a ingresar un grupo: " grupo2
+
+
+
+        busquedaGrupoSecundario=$(cut -d ":" -f3 /etc/group | grep -w "$grupo2")
+
+done
+
+
+
+
+
+echo
+
+
+
+#Shell
+
+
+
+read -p "Desea ingresar una shell manualmente? S/N: " confirmashell
+
+
+
+if [ "$confirmashell" == "n" ]
+
+then
+
+echo
+
+
+
+echo "Se ha ingresado por defecto la  shell"
+
+
+
+elif [ "$confirmashell" == "s" ] 
+
+then
+
+
+
+echo "Seleccione la shell"
+
+
+
+echo "bash"
+
+echo "sh"
+
+echo "ksh"
+
+echo "tcsh"
+
+echo "csh"
+
+
+
+read -p "Escriba el nombre de la shell que desea utilizar: " shell
+
+
+
+fi
+
+
+
+
+
+
+
+# FALTA UTILIZAR EL BIN PARA CONTROLAR QUE NO SE INGRESE CUALQUIER SHELL
+
+
+
+echo
+
+
+
+if [ "$grupo" == "" ]
+
+then
+
+        useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -G "$grupo2" -s /bin/"$shell"
+
+
+
+elif [ "$shell" == "" ]
+
+then
+
+        useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -g "$grupo" -G "$grupo2"
+
+
+
+elif [ "$shell" == "" ] && [ "$grupo" == "" ]
+
+then
+
+        useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -G "$grupo2"
+
+
+
+else
+
+        useradd "$login" -d /home/"$home" -mk /etc/skel -c "$comentario" -g "$grupo" -G "$grupo2" -s /bin/"$shell"
+
+fi
+
+
+
+echo
+
+
+
+passwd "$login"
+
+echo
+
+        read -p "Presione ENTER para volver al menu" volver
+
+
+
+	
+
+fi #cierra primer if (home ya existe)
+
+;;
+
+
+
+2) break
+
+;;
+
+
+
+*)	echo
+
+	echo "La opcion ingresada no es valida."
+
+	read -p "Presione ENTER y vuelva a ingresar una opcion valida" VolverAIngresar3
+
+;;
+
+
+
+esac
+
+done
+
+
+
+

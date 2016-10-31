@@ -1,0 +1,36 @@
+#!/bin/bash
+clear
+
+         read -p "Ingrese el login del usuario al cual desea cambiarle el comentario: " loginMod2
+
+while [ "$loginMod2" == "" ]
+do
+echo
+        echo "Debe ingresar un login para continuar."
+        read -p "Vuelva a ingresar un login: " loginMod2
+
+done
+
+        busquedaLoginMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$loginMod2")
+
+if [ "$loginMod2" != "$busquedaLoginMod" ]
+then
+echo
+        echo "El login ingresado no existe."
+        read -p "Presione ENTER y vuelva a intentarlo" volver
+
+fi
+        read -p "Ingrese el nuevo comentario que desea ingresarle al usuario: " NuevoComentario
+echo
+        usermod -c "$NuevoComentario" "$loginMod2"
+echo
+
+	if [ $? == 0 ]
+then
+echo
+	read -p "Se ha creado el grupo con exito. Presione ENTER para salir" volver
+else 
+
+	read -p "Se a producido un error  y no se ha podido ingresar el usuario. Presione ENTER y vuelva a intentarlo" volver
+
+fi

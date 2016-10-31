@@ -1,0 +1,80 @@
+#!/bin/bash
+clear
+
+while [ "$opcioning"!=2 ]
+do
+clear
+	
+	echo " ________________________________________ "
+	echo "|                                        |"
+	echo "|        INSERCCIÓN DE GRUPOS            |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "|      1- Comenzar a ingresar            |"
+	echo "|      2- Volver                         |"
+	echo "|________________________________________|"
+echo
+	read -p "Ingrese la opcion deseada: " opcioning
+
+case $opcioning in
+
+1) clear
+
+	read -p "Ingrese el nombre del grupo: " nombredegrupo
+
+ while [ "$nombredegrupo" == ""  ]
+ do
+ echo
+	echo "Se debe de ingresar un nombre para continuar"
+	read -p "Por favor, ingrese nuevamente el nombre del grupo: " nombredegrupo
+done
+
+	busquedanombregrupo=$(cut -d ":" -f1 /etc/group | grep -wi "$nombredegrupo")
+
+if [ "$busquedanombregrupo" != "" ]
+then 
+echo
+	echo "El nombre de grupo que ingreso ya existe"
+	read -p "VUelva a ingresar un grupo: " nombredegrupo
+fi
+
+	read -p "Ingrese el numero del grupo: " grupogid
+
+while [ "$grupogid" = "a-z" ]
+do 
+echo
+	echo "El GID del grupo debe de ser un numero"
+	read -p "Ingrese nuevamente el numero del grupo" grupogid
+done
+	busquedagidgrupo=$(cut -d ":" -f3 /etc/group | grep -w "$grupogid")
+
+while [ "$busquedagidgrupo" == "$grupogid" ]
+do
+echo
+	echo "El numero de grupo debe de ser unico"
+	read -p "Por favor, ingrese un nuevo GID para continuar: " grupogid
+done
+echo
+	groupadd -g "$grupogid" "$nombredegrupo" 
+echo
+
+	if [ $? == 0 ]
+then
+echo
+	read -p "Se ha creado el grupo con exito. Presione ENTER para salir" volver
+else 
+
+	read -p "Se a producido un error  y no se ha podido ingresar el usuario. Presione ENTER y vuelva a intentarlo" volver
+
+fi
+;;
+
+2) break
+;;
+
+*) 	echo "La opcion ingresada no es valida"
+	read -p "Presione ENTER y vuelva a ingresar una opcion correcta" volveraingresar
+;;
+
+esac
+done

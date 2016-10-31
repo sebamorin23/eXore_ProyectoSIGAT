@@ -1,0 +1,33 @@
+#!/bin/bash
+clear
+
+while [ "$opcionmodgrup"==3 ]
+do
+
+	echo " ________________________________________ "
+	echo "|                                        |"
+	echo "|       MODIFICACION DE GRUPOS           |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "| 1- Modificar nombre del grupo          |"
+	echo "| 2- Modificar el numero (GID) del grupo |"
+	echo "| 3- Volver                              |"
+	echo "|________________________________________|" 
+echo 
+	read -p "Ingrese la opcion deseada: " opcionmodgrup
+
+case $opcionmodgrup in
+
+1) . modNombreGrupo 
+;;
+
+2) . modGidGrupo
+;;
+
+3) break
+;;
+
+esac
+done
+
+

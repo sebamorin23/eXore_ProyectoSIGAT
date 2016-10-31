@@ -1,0 +1,68 @@
+#!/bin/bash
+clear
+
+
+while [ "$opcion2"!=9 ]
+do
+
+clear
+
+	echo " ________________________________________ "
+	echo "|                                        |"
+	echo "|        MODIFICACIÓN DE USUARIO         |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "|      1- Modificar login                |"
+	echo "|      2- Modificar home                 |"
+	echo "|      3- Modificar comentario           |"
+	echo "|      4- Modificar grupo principal      |"
+	echo "|      5- Modificar grupo secundario     |"
+	echo "|      6- Modificar shell                |"
+	echo "|      7- Bloquear usuario               |"
+	echo "|      8- Desbloquear usuario            |"
+	echo "|      9- Volver                         |"
+	echo "|________________________________________|"
+echo
+	read -p "Ingrese la opcion que desea modificar: " opcion2
+
+
+
+case $opcion2 in 
+
+1) . modlogin
+
+;; #cierra case de "opcion2"
+
+2) . modhome
+;; #cierra case de "opcion2"
+
+3) . modcomentario
+;; #cierra case de "opcion2"
+
+4) . modgrupousu 
+;; #cierra case de "opcion2"
+
+5) . modgrupo2
+
+;; #cierra case de "opcion2"
+
+6) . modshell
+;; #cierra case de "opcion2"
+
+7) . bloqusu
+;; #cierra case de "opcion2"
+
+8) . desbloqusu
+;;
+
+9) break
+;; #cierra case de "opcion2"
+
+*)	 echo
+ 	 echo "La opcion ingresada no es valida."
+	 read -p "Presione ENTER y vuelva a ingresar una opcion valida" VolverAIngresar4
+;; #cierra case de "opcion2"
+
+esac
+done
+

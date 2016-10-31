@@ -1,0 +1,51 @@
+#!/bin/bash
+clear
+
+read -p "Ingrese el usuario que desea desbloquear: " usudesbloq
+
+while [ "$usudesbloq" == "" ]
+do
+
+echo "Se debe ingresar el login de un usuario para continuar" 
+read -p "Ingrese un login para continuar: " usudesbloq
+
+busquedausudesbloq=$(cut -d ":" -f1 /etc/passwd | grep -w "$usudesbloq")
+
+done
+
+busquedausudesbloq=$(cut -d ":" -f1 /etc/passwd | grep -w "$usudesbloq")
+
+until [ "$busquedausudesbloq" == "$usudesbloq" ]
+do
+
+echo "El usuario que ingreso no existe"
+read -p "Ingrese un login existente para continuar: " usudesbloq
+
+busquedausudesbloq=$(cut -d ":" -f1 /etc/passwd | grep -w "$usudesbloq")
+
+done
+
+if [ "$busquedausudesbloq" == "$usudesbloq" ]
+then
+read -p "Esta por desbloquear un usuario. ¿DESEA CONTINUAR? S/N: " continuardesbloq
+
+if [ "$continuardesbloq" == "S" ] || [ "$continuardesbloq" == "s" ]
+then
+
+usermod -U $usudesbloq
+
+echo "Se ha desbloqueado el usuario"
+
+read -p "Presone ENTER para continuar" volver45671
+
+else 
+
+read -p "Presione ENTER para volver" volver555661
+
+fi
+
+else 
+
+read -p "Presione ENTER para volver al menu" volver9991
+
+fi

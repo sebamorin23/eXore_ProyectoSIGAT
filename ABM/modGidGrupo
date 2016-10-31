@@ -1,0 +1,62 @@
+#!/bin/bash
+clear
+
+	read -p "Ingrese el nombre del grupo, al que le desea modificar el mismo: " nomgrupmod
+
+while [ "$nomgrupmod" == "" ]
+do
+echo
+	echo "Se debe de ingresar un nombre para continuar"
+echo
+	read -p "Por favor, ingrese un nombre para continuar: " nomgrupmod
+
+done
+
+busquedagidgrupmod=$(cut -d ":" -f1 /etc/group | grep -w "$nomgrupmod")
+
+
+if [ "$busquedagidgrupmod" == "" ]
+then
+
+echo "El grupo no existe"
+read -p "Ingrese un nombre que exista: " nomgrupmod
+
+fi
+
+# NUEVO GID
+
+echo
+
+	read -p "Ingrese el nuevo GID: " modgid2
+
+while [ "$modgid2" == "" ]
+do
+echo
+	echo "Debe ingresar un GID"
+	read -p "Vuelva a ingresar un GID: " modgid2
+done
+
+busquedagrupmodgid=$(cut -d ":" -f3 /etc/group | grep -w "$modgid2")
+
+while [ "$busquedagrupmodid" == "$modgid2" ]
+do
+echo
+	echo "El nuevo GID que eligio ya existe"
+echo
+	read -p "Por favor, ingrese un nuevo GID: " modgid2
+
+busquedagrupmodgid=$(cut -d ":" -f3 /etc/group | grep -w "$modgid2")
+done
+
+echo
+	groupmod -g "$modgid2" "$nomgrupmod"
+
+	if [ $? == 0 ]
+	then
+echo
+	read -p "Se ha modificado el GID del grupo con exito. Presione ENTER para salir" volver
+else 
+
+	read -p "Se a producido un error  y no se ha podido ingresar el usuario. Presione ENTER y vuelva a intentarlo" volver
+
+fi

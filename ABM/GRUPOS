@@ -1,0 +1,41 @@
+#!/bin/bash
+clear
+
+while [ opcionmenugrupo!=4 ]
+do
+
+clear
+
+	echo " ________________________________________ "
+	echo "|                                        |"
+	echo "|                GRUPOS                  |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "|          1- Crear grupo                |"
+	echo "|          2- Modificar grupo            |"
+	echo "|          3- Eliminar grupo             |"
+	echo "|          4- Volver                     |"
+	echo "|________________________________________|"
+echo	
+	read -p "Ingrese la opcion deseada: " opcionmenugrupo
+
+case $opcionmenugrupo in
+
+1) . creargrupo
+;;
+
+2) . modgrupo
+;;
+
+
+
+3) . eligrupo
+;;
+
+4) clear 
+break 
+;;
+
+esac
+done
+

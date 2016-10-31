@@ -1,0 +1,61 @@
+#!/bin/bash
+echo
+
+while [ $opcion=!3 ]
+do
+
+clear
+echo
+echo " ________________________________________ "
+echo "|                                        |"
+echo "|                 MENU                   |"
+echo "|________________________________________|"
+echo "|          1- Buscar Usuario             |"                    
+echo "|          2- Buscar un grupo            |"                   
+echo "|          3- Volver                     |"                             
+echo "|________________________________________|"
+echo
+read -p "Ingrese la opcion deseada: " opcion
+
+case $opcion in
+1) clear
+	read -p "Ingrese nombre de usuario: " usuario
+clear	
+	busqueda=$(cut -d ":" -f1 /etc/passwd | grep -wi "$usuario")
+	busquedaUsuario=$(grep "$usuario" /etc/passwd) 
+	echo "USUARIO: " $busquedaUsuario
+	if [ "$busqueda" == "" ]
+	then
+clear	
+	echo "Usuario no registrado"
+	fi
+	echo
+	read -p "Presione enter para regresar al menu" reg1
+;;
+
+2)clear 
+	read -p "Ingrese nombre del grupo: " grupo
+	busqueda2=$(cut -d ":" -f1 /etc/group | grep -w "$grupo")
+	busquedagrupo=$(grep "$grupo" /etc/group)
+clear	
+	echo "GRUPO:"
+	echo $busquedagrupo
+	if [ "$busquedagrupo" == "" ]
+	then 
+clear	
+	echo "Grupo no existente"
+	fi
+	echo
+	read -p "Presione enter para regresar al menu" reg2
+;;
+
+
+3)clear
+ break
+;;
+
+*) read -p "La opcion ingresada no es correcta. Presione ENTER y vuelva a intentarlo" reintentar
+;;
+
+esac
+done 

@@ -1,0 +1,39 @@
+#!/bin/bash
+clear
+
+while [ "$elegir"=!3 ]
+do
+clear	
+	echo " ________________________________________ "
+        echo "|                                        |"
+	echo "|        INSERCCION DE USUARIOS          |"
+	echo "|________________________________________|"	
+	echo "|                                        |"
+	echo "|  1- Ingresar usuario manualmente       |"
+	echo "|  2- Ingresar usuario automaticamente   |"
+	echo "|  3- Volver                             |"
+	echo "|________________________________________|"
+echo
+	read -p "Ingrese la opcion deseada: " elegir
+
+case $elegir in
+
+1) . altamanual
+;;
+
+2) . altaautomatica
+;;
+
+3) clear
+break
+;;
+
+*) read -p "La opcion ingresada no es correcta. Presione ENTER y vuelva a ingresar una opcion correcta" voler2131
+;;
+
+esac
+done
+
+
+
+

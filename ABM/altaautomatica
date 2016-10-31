@@ -1,0 +1,76 @@
+#!/bin/bash
+clear
+
+while [ "$elija"=!2 ]
+do
+clear
+
+	echo " ________________________________________ "
+	echo "|                                        |"
+	echo "|           ALTA AUTOMATICA              |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "|   1- Comezar a ingresar al usuario     |"
+	echo "|   2- Volver                            |"
+	echo "|________________________________________|"
+echo
+	read -p "Ingrese la opcion deseada: " elija
+
+case $elija in
+
+1) clear
+
+	read -p "Ingrese el login del usuario: " usuauto
+
+while [ "$usuauto" == "" ]
+do
+echo
+	echo "Se debe de ingresar un usuario para continuar"
+echo
+	read -p "Por favor, ingrese un login para continuar: " usuauto
+
+done
+
+	busquedausuauto=$(cut -d  ":" -f1 /etc/passwd | grep -wi "$usuauto")
+
+if [ "$busquedausuauto" != "" ]
+then
+echo
+	echo "Ya existe el login que desea ingresar y estos son sus datos: "
+echo
+	finger = "$usuauto"
+echo
+	read -p "Presione ENTER y vuelva a intentarlo. " usuauto
+	break
+
+fi
+
+echo
+	read -p "Ingrese un comentario: " comentauto
+
+useradd "$usuauto" -d /home/"$usuauto" -mk /etc/skel -c "$comentauto" 
+
+echo
+
+passwd "$usuauto"
+
+if [ $? == 0 ]
+then
+echo
+	read -p "Se ha creado el usuario con exito. Presione ENTER para salir" volver74493
+else 
+
+	read -p "Se a producido un error  y no se ha podido ingresar el usuario. Presione ENTER y vuelva a intentarlo" volver975434
+
+fi
+;;
+
+2) break
+;;
+
+*) read -p "La opcion ingresada no es correcta. Presione ENTER y vuelva a ingresar una correcta" volver43356
+;;
+
+esac
+done
+

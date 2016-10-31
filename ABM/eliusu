@@ -1,0 +1,93 @@
+#!/bin/bash
+clear
+
+while [ "$comenzar"=!2 ]
+do
+clear
+	
+	echo " ________________________________________ "
+	echo "|                                        |"
+	echo "|           BAJA DE USUARIO              |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "|       1- Comenzar a eliminar           |"
+	echo "|       2- Volver                        |"
+	echo "|________________________________________|"
+echo
+	read -p "Ingrese la opcion deseada: " comenzar
+
+case $comenzar in
+
+1) clear
+
+
+	read -p "Ingrese el login del usuario al que desea eliminar: " LoginDelUsu
+
+while [ "$LoginDelUsu" == "" ]
+do
+echo
+	echo "Debe ingresar un login para continuar."
+	read -p "Vuelva a ingresar un login: " LoginDelUsu
+done
+
+	busquedaLoginDelUsu=$(cut -d ":" -f1 /etc/passwd | grep -wi "$LoginDelUsu")
+
+while [ "$LoginDelUsu" != "$busquedaLoginDelUsu" ]
+do
+echo
+	echo "El login ingresado no existe."
+	read -p "Vuelva a ingresar un login: " LoginDelUsu
+
+	busquedaLoginDelUsu=$(cut -d ":" -f1 /etc/passwd | grep -wi "$LoginDelUsu")
+done
+
+if [ "$LoginDelUsu" == "$busquedaLoginDelUsu" ]
+then
+
+	read -p "Esta por eliminar un usuario. ¿Desea continuar? (S/N): " opcioneliminar
+
+if  [ "$opcioneliminar" == "S" ] || [ "$opcioneliminar" == "s" ]
+then
+echo
+        userdel -r "$LoginDelUsu"
+echo
+
+if [ $? == 0 ] 
+ then
+
+echo "Se ha eliminado el usuario"
+
+else 
+
+	echo "Error. No se ha eliminado el usuario"
+
+fi
+echo
+        read -p "Presione ENTER para volver" enter9
+else
+        read -p "Presione ENTER para volver" enter10
+fi
+
+else
+
+echo "El grupo que desea eliminar no existe"
+read -p "Presione ENTER para volver al menu" enter11
+
+fi
+
+;;
+
+2) break
+;;
+
+*) read -p "La opcion ingresada no es correcta. Presione ENTER y vuelva a ingresar una opcion correcta" voler7654
+;;
+
+esac
+done
+
+
+
+
+
+	

@@ -1,0 +1,79 @@
+#!/bin/bash
+clear
+
+while [ "$elegir2"=!2 ]
+do
+clear
+
+	echo " ________________________________________ "
+	echo "|                                        |"
+	echo "|            BAJA DE GRUPOS              |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "|         1- Comenzar a eliminar         |"
+	echo "|         2- Volver                      |"
+	echo "|________________________________________|"
+echo
+	read -p "Ingrese la opcion deseada: " elegir2
+
+case $elegir2 in
+
+1) clear
+
+	read -p "Ingrese el nobre del grupo que desea eliminar: " grupoeliminar
+
+while [ "$grupoeliminar" == "" ]
+do
+	echo "No se ha ingresado ningun grupo"
+	read -p "Ingrese un grupo: " grupoeliminar
+done
+
+	busquedagrupoeliminar=$(cut -d ":" -f1 /etc/group | grep -w "$grupoeliminar")
+
+if [ "$busquedagrupoeliminar" == "$grupoeliminar" ]
+then
+	read -p "ESTA POR ELIMINAR UN GRUPO. DESEA CONTINUAR? (S/N): " continuar
+
+if  [ "$continuar" == "S" ] || [ "$continuar" == "s" ]
+then
+echo
+	groupdel "$grupoeliminar"
+echo
+
+	if [ $? == 0 ]
+then
+echo
+	read -p "Se ha eliminado el grupo con exito. Presione ENTER para salir" volver
+else 
+
+	read -p "Se a producido un error  y no se ha podido ingresar el usuario. Presione ENTER y vuelva a intentarlo" volver
+
+fi
+
+echo
+
+
+else 
+
+	read -p "Presione ENTER para volver" enter
+
+fi
+
+else 
+
+echo "El grupo que desea eliminar no existe"
+read -p "Presione ENTER para volver al menu" regresareliminar
+
+fi
+
+;;
+
+2) break
+;;
+
+*) read -p "La opcion ingresada no es correcta. Presione ENTER y vuelva a ingresar una opcion valida" volver654345
+;;
+
+esac
+done
+

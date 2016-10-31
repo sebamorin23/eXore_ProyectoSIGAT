@@ -1,0 +1,53 @@
+
+clear
+
+while [ "$PrimeraOpcion"!=4 ]
+do
+clear
+
+	echo -e "\e[1;34m ________________________________________ "
+	echo "|                                        |"
+	echo "|              S.I.G.A.T                 |"
+	echo "|________________________________________|"
+	echo "|                                        |"
+	echo "|       1- Trabajar con usuarios         |"
+	echo "|       2- Trabajar con grupos           |"
+	echo "|       3- Busqueda usuario/grupo        |"
+	echo "|       4- Salir                         |"
+	echo "|________________________________________|"
+	echo
+read -p "Ingrese la opcion deseada: " PrimeraOpcion
+
+
+case $PrimeraOpcion in 
+
+1) . USUARIOS
+;; # cierra case de "PrimeraOpcion"
+
+2) . GRUPOS 
+;;
+
+
+3) . busquedas
+;;
+
+4)
+echo 	
+	read -p "¿Seguro que desea cerrar el programa? S/N : " cerrar
+
+if [ "$cerrar" == "s" ] || [ "$cerrar" == "S" ] 
+then
+	clear	
+	break
+fi
+;;
+
+*) 	echo
+	echo "La opcion ingresada no es correcta."
+ 	read -p "Presione ENTER y vuelva a ingresar una opcion valida." VolerAIngresar
+;;
+
+esac
+done
+
+

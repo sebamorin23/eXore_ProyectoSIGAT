@@ -1,0 +1,36 @@
+#!/bin/bash
+clear
+
+        read -p "Ingrese el nombre del grupo al que desea modificar el mismo: " grupomodnom
+
+while [ "$grupomodnom" == "" ]
+do
+        echo "Se debe de ingresar un nombre para continuar"
+        read -p "Por favor, ingrese nuevamente un nombre: " grupomodnom
+done
+
+	busquedagrupomodnom1=$(cut -d ":" -f1 /etc/group | grep -w "$grupomodnom")
+
+while [ "$busquedagrupomodnom1" != "$grupomodnom" ] 
+do
+
+	echo "El grupo ingresado no existe"
+	read -p "Ingrese un grupo existente: " grupomodnom
+
+	busquedagrupomodnom1=$(cut -d ":" -f1 /etc/group | grep -w "$grupomodnom")
+
+done
+
+	read -p "Ingrese el nuevo nombre para el grupo: " grupomodnom2
+
+	busquedagrupomodnom=$(cut -d ":" -f1 /etc/group | grep -w "$grupomodnom2")
+
+while [ "$busquedagrupomodnom" == "$grupomodnom2" ]
+do
+        read -p "El nombre del grupo ya existe, ingrese uno: " grupomodnom2
+done
+echo
+        groupmod -n "$grupomodnom2" "$grupomodnom"
+echo
+        read -p "Presione ENTER para volver al menú" volver11
+

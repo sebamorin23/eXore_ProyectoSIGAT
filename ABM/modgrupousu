@@ -1,0 +1,57 @@
+#!/bin/bash
+clear
+
+read -p "Ingrese el login del ususario al que le quiere modificar el grupo: " LoginGrupoMod
+
+
+while [ "$LoginGrupoMod" == "" ]
+do
+echo
+        echo "Debe ingresar un login para continuar."
+        read -p "Vuelva a ingresar un login: " LoginGrupoMod
+done
+
+	busquedaGrupoMod=$(cut -d ":" -f1 /etc/passwd | grep -w "$LoginGrupoMod")
+
+if [ "$busquedaGrupoMod" == "" ]
+then
+echo
+        echo "El usuario ingresado no existe."
+        read -p "Presione ENTER y vuelva a intentarlo: " volver
+	break
+fi
+echo
+        
+	read -p "Ingrese el nuevo grupo que le desea cambiar al usuario: " NuevoGrupo
+
+        busquedaGrupoMod2=$(cut -d ":" -f3 /etc/group | grep -w "$NuevoGrupo")
+
+while [ "$NuevoGrupo" == "" ]
+do
+echo
+        echo "Se debe ingresar un grupo para continuar"
+        read -p "VUelva a ingresar un grupo para el usuario: " NuevoGrupo
+
+        busquedaGrupoMod2=$(cut -d ":" -f3 /etc/group | grep -w "$NuevoGrupo")
+done
+
+until [ "$busquedaGrupoMod2" == "$NuevoGrupo" ]
+do
+echo
+        echo "Debe ingresar un grupo existente."
+        read -p "Vuelva a ingresar un grupo para el usuario: " NuevoGrupo
+
+        busquedaGrupoMod2=$(cut -d ":" -f3 /etc/group | grep -w "$NuevoGrupo")
+done
+echo
+        usermod -d "$NuevoGrupo" "$LoginGrupoMod"
+
+	if [ $? == 0 ]
+	then
+echo
+	read -p "Se ha modificado el grupo primario con exito. Presione ENTER para salir" volver
+else 
+
+	read -p "Se a producido un error  y no se ha podido ingresar el usuario. Presione ENTER y vuelva a intentarlo" volver
+
+fi
